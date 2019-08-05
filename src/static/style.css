@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css?family=Karla&display=swap');
+
+:root {
+  --background: #2F2F2E;
+  --darker: #1F1F1F;
+  --text: #c0c1c5;
+  --primary: #7494EA;
+  --secondary: #3EBAE8;
+  --accent: #47FF76;
+  --error: #E56E6E;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Karla', sans-serif;
+}
+
+::selection {
+  background: var(--text);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+#header {
+  font-size: 10rem;
+  color: var(--primary)
+
+}
+
+#subtitle {
+  margin-top: -1rem;
+  font-weight: initial;
+  font-size: 1.25rem;
+}
+
+#footer {
+  margin-top: 5rem;
+  flex-grow: 1;
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
+  max-width: 50rem;
+}
+
+#link {
+  width: 75%;
+  max-width: 50rem;
+  display: flex;
+}
+
+input {
+  color: var(--text);
+  flex-grow: 1;
+  margin-top: 2rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  background: var(--darker);
+  border-width: 0 0 2px 0;
+  border-radius: 0.25rem;
+  border-bottom-color: var(--primary);
+  transition: border-bottom-color 0.2s ease-in-out;
+  outline: none;
+}
+
+button {
+  margin-top: 2rem;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  background: var(--darker);
+  color: var(--text);
+  font-weight: bold;
+  border-width: 0 0 2px 0;
+  border-radius: 0.25rem;
+  border-bottom-color: var(--primary);
+  border-style: solid;
+  transition: border-bottom-color 0.2s ease-in-out;
+  outline: none;
+  line-break: none;
+}
+
+input:hover, button:hover {
+  border-bottom-color: var(--secondary);
+}
+
+input:focus, button:focus {
+  border-bottom-color: var(--accent);
+}
+
+a:visited, a:active, a:hover {
+  color: var(--secondary);
+}
+
+a {
+  color: var(--primary);
+  transition: color 0.2s ease;
+}
+
+.error:focus, .error:hover, .error {
+  border-bottom-color: var(--error);
+}
