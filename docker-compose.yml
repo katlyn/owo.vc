@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   web:
     build: .
@@ -8,4 +8,4 @@ services:
   rethink:
     image: rethinkdb:2.3.6
     volumes:
-      - "data/rethink:/data"
+      - "./data/rethink:/data"
