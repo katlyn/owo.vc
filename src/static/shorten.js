@@ -26,7 +26,7 @@ const shortenLink = async (link) => {
     console.log(`Shortening ${link}`)
     linkInput.value = ''
     linkInput.placeholder = 'Generating link...'
-    const response = await fetch('http://localhost:3001/generate', {
+    const response = await fetch('/generate', {
       method: 'POST',
       body: JSON.stringify({ link })
     })
