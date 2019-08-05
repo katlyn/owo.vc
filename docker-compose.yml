@@ -1,0 +1,11 @@
+version: '3'
+services:
+  web:
+    build: .
+    restart: always
+    ports:
+      - 3000:80
+  rethink:
+    image: rethinkdb:2.3.6
+    volumes:
+      - "data/rethink:/data"
