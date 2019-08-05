@@ -28,6 +28,10 @@ const shortenLink = async (link) => {
     linkInput.placeholder = 'Generating link...'
     const response = await fetch('/generate', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
       body: JSON.stringify({ link })
     })
     if (response.ok) {
