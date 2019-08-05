@@ -36,7 +36,7 @@ const shortenLink = async (link) => {
     })
     if (response.ok) {
       linkInput.classList.remove('error')
-      const linkData = response.json()
+      const linkData = await response.json()
       linkInput.value = linkData.result
       linkInput.placeholder = 'Link to shorten...'
     } else {
