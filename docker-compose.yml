@@ -1,11 +1,13 @@
 version: '2'
 services:
   web:
+    container_name: owo.vc-web
     build: .
     restart: always
     ports:
       - 3000:80
   rethink:
+    container_name: owo.vc-rethink
     image: rethinkdb:2.3.6
     volumes:
       - "./data/rethink:/data"
