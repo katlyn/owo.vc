@@ -42,4 +42,4 @@ app.use(async (req, res) => {
   }
 })
 
-app.listen(80)
+app.listen(parseInt(process.env.WEB_PORT) || 80)
