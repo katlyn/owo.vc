@@ -1,6 +1,8 @@
 import express from 'express'
 import { r, Link } from './pool'
+
 import { owo } from './generators/owo'
+import { zws } from './generators/zws'
 
 const app = express()
 const isUrl = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
@@ -9,7 +11,23 @@ app.use(express.json())
 
 app.post('/generate', async (req, res) => {
   if (req.body && req.body.link && isUrl.test(req.body.link)) {
-    const id = owo()
+    let generator = owo
+    if (req.body.generator) {
+      switch (req.body.generator) {
+        case 'owo':
+          generator = owo
+          break
+
+        case 'zws':
+          generator = zws
+          break
+
+        default:
+          res.status(400).send('Invalid generator')
+          return
+      }
+    }
+    const id = generator()
     const dbResponse = await r.table('links').insert({
       destination: req.body.link,
       id
@@ -29,7 +47,7 @@ app.post('/generate', async (req, res) => {
 
 app.use(async (req, res) => {
   if (req.method === 'GET') {
-    const url = req.hostname + req.path
+    const url = decodeURI(req.hostname + req.path)
     console.log(url)
     const linkData = await r.table('links').get(url).run() as Link
     if (linkData) {
@@ -42,4 +60,4 @@ app.use(async (req, res) => {
   }
 })
 
-app.listen(parseInt(process.env.WEB_PORT) || 80)
+app.listen(parseInt(process.env.WEB_PORT, 10) || 80)
