@@ -1,4 +1,5 @@
 import express from 'express'
+import isBot from 'isbot'
 import { r, Link } from './pool'
 
 import { owo } from './generators/owo'
@@ -30,14 +31,16 @@ app.post('/generate', async (req, res) => {
     const id = generator()
     const dbResponse = await r.table('links').insert({
       destination: req.body.link,
-      id
+      id,
+      preventScrape: !!req.body.preventScrape
     }).run()
     if (dbResponse.errors > 0) {
       res.status(500).send('Conflicting IDs')
     } else {
       res.json({
         result: id,
-        destination: req.body.link
+        destination: req.body.link,
+        preventScrape: !!req.body.preventScrape
       })
     }
   } else {
@@ -51,6 +54,9 @@ app.use(async (req, res) => {
     console.log(url)
     const linkData = await r.table('links').get(url).run() as Link
     if (linkData) {
+      if (linkData.preventScrape && isBot(req.header('User-Agent'))) {
+        return res.status(200).end()
+      }
       res.redirect(linkData.destination)
     } else {
       res.status(404).send('Not found')

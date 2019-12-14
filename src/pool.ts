@@ -10,7 +10,8 @@ export const r = rethinkDBDash({
 
 export interface Link {
   id: string,
-  destination: string
+  destination: string,
+  preventScrape: boolean
 }
 
 (async () => {

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "isbot": "^2.5.3",
     "rethinkdbdash": "^2.3.31",
     "source-map-support": "^0.5.12"
   }

@@ -432,6 +432,11 @@ isarray@0.0.1:
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"
   integrity sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=
 
+isbot@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/isbot/-/isbot-2.5.3.tgz#74c6d3facd9319a5d0b9a5d873d827d5ef6cb0c0"
+  integrity sha512-ayuu8vZnStKb8w0VYv0RRyiP/M8Lsrtfow1s4sE3l4r+q15H8rpR9rW3wJtW8D0vp1UYj3nTOWndNGoyF6Gu2A==
+
 js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
