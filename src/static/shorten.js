@@ -1,6 +1,9 @@
 const linkInput = document.getElementById('input')
 const linkSubmit = document.getElementById('submit')
 
+const zws = document.getElementById('zws')
+const preventScrape = document.getElementById('preventScrape')
+
 let lock = false
 
 linkInput.addEventListener('keypress', ev => {
@@ -32,7 +35,11 @@ const shortenLink = async (link) => {
         'Content-Type': 'application/json',
         // 'Content-Type': 'application/x-www-form-urlencoded',
     },
-      body: JSON.stringify({ link })
+      body: JSON.stringify({
+        link,
+        generator: zws.checked ? 'zws' : 'owo',
+        preventScrape: preventScrape.checked
+      })
     })
     if (response.ok) {
       linkInput.classList.remove('error')

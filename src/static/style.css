@@ -109,3 +109,14 @@ a {
 .error:focus, .error:hover, .error {
   border-bottom-color: var(--error);
 }
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  user-select: none;
+  width: 50%;
+}
+
+input[type="checkbox"], label {
+  cursor: pointer;
+}
