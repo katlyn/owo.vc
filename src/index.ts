@@ -1,6 +1,7 @@
 import express from 'express'
 import isBot from 'isbot'
 import { r, Link } from './pool'
+import cors from 'cors'
 
 import { owo } from './generators/owo'
 import { zws } from './generators/zws'
@@ -10,12 +11,9 @@ const isUrl = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(
 
 app.use(express.json())
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  res.header('Access-Control-Allow-Methods', 'POST')
-  next()
-})
+// typ:disable
+app.use(cors())
+app.options('/generate', cors())
 
 app.post('/generate', async (req, res) => {
   if (req.body && req.body.link && isUrl.test(req.body.link)) {

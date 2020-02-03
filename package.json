@@ -11,6 +11,7 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "isbot": "^2.5.3",
     "rethinkdbdash": "^2.3.31",
