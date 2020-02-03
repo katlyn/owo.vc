@@ -10,6 +10,12 @@ const isUrl = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(
 
 app.use(express.json())
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
+
 app.post('/generate', async (req, res) => {
   if (req.body && req.body.link && isUrl.test(req.body.link)) {
     let generator = owo
