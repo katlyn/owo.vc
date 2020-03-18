@@ -3,6 +3,7 @@ const linkSubmit = document.getElementById('submit')
 
 const zws = document.getElementById('zws')
 const preventScrape = document.getElementById('preventScrape')
+const owoify = document.getElementById('owoify')
 
 let lock = false
 
@@ -38,7 +39,8 @@ const shortenLink = async (link) => {
       body: JSON.stringify({
         link,
         generator: zws.checked ? 'zws' : 'owo',
-        preventScrape: preventScrape.checked
+        preventScrape: preventScrape.checked,
+        owoify: owoify.checked
       })
     })
     if (response.ok) {
