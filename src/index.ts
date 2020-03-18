@@ -1,8 +1,11 @@
+import 'source-map-support/register'
+
 import express from 'express'
 import isBot from 'isbot'
 import { r, Link } from './pool'
 import cors from 'cors'
-import og from 'open-graph-scraper'
+import cheerio from 'cheerio'
+import fetch from 'node-fetch'
 
 import owoify from './owoifier'
 
@@ -66,48 +69,39 @@ app.use(async (req, res) => {
       if (linkData.preventScrape && isBot(req.header('User-Agent'))) {
         return res.status(200).end()
       } else if (linkData.owoify && isBot(req.header('User-Agent'))) {
-        try {
-          const metadata = await og({
-            headers: {
-              'User-Agent': 'OWObot (https://owo.vc)'
-            },
-            url: linkData.destination
-          })
-          if (metadata.success) {
-            const { data } = metadata
-            let page = '<html><head>'
-            if (data.ogTitle) {
-              page += `<meta property="og:title" content="${owoify(data.ogTitle)}"/>`
-            }
-            if (data.ogType) {
-              page += `<meta property="og:type" content="${data.ogType}"/>`
-            }
-            if (data.ogUrl) {
-              page += `<meta property="og:url" content="${data.ogUrl}"/>`
-            }
-            if (data.ofDescription) {
-              page += `<meta property="og:description" content="${owoify(data.ogDescription)}"/>`
-            }
-            if (data.ogImage) {
-              const image = data.ogImage
-
-              if (image.url) {
-                page += `<meta property="og:image" content="${image.url}"/>`
-              }
-              if (image.width) {
-                page += `<meta property="og:image:width" content="${image.width}"/>`
-              }
-              if (image.height) {
-                page += `<meta property="og:image:height" content="${image.height}"/>`
-              }
-              if (image.type) {
-                page += `<meta property="og:image:type" content="${image.type}"/>`
-              }
-            }
-            page += '</head><body></body></html>'
-            return res.send(page)
+        const page = await fetch(linkData.destination, {
+          headers: {
+            'User-Agent': 'OWObot (https://owo.vc)'
           }
-        } catch (_) { console.error(_) }
+        })
+        if (page.ok) {
+          const $ = cheerio.load(await page.text())
+          const metaTags = $('meta')
+          let metadataHTML = ''
+
+          const owodTags = [
+            'og:title',
+            'og:site_name',
+            'og:description',
+            'description',
+            'twitter:title',
+            'twitter:description'
+          ]
+
+          for (const key in metaTags) {
+            const tag = metaTags[key].attribs?.property || metaTags[key].attribs?.name
+            if (owodTags.includes(tag)) {
+              if (metaTags[key].attribs.content) {
+                metaTags[key].attribs.content = owoify(metaTags[key].attribs.content)
+              }
+              if (metaTags[key].attribs.value) {
+                metaTags[key].attribs.value = owoify(metaTags[key].attribs.value)
+              }
+            }
+          }
+
+          return res.send(`<html><head>${cheerio.html(metaTags)}</head><body></body></html>`)
+        }
       }
       res.redirect(linkData.destination)
     } else {
