@@ -13,7 +13,7 @@ import { owo } from './generators/owo'
 import { zws } from './generators/zws'
 
 const app = express()
-const isUrl = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+const isUrl = /(?:https?:\/\/).+\..+/
 
 app.use(express.json())
 

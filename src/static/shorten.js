@@ -25,7 +25,7 @@ linkSubmit.addEventListener('click', ev => {
 const shortenLink = async (link) => {
   if (lock) return
   lock = true
-  const isUrl = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+  const isUrl = /(?:https?:\/\/).+\..+/
   if (isUrl.test(link)) {
     console.log(`Shortening ${link}`)
     linkInput.value = ''
