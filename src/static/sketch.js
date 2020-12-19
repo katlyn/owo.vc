@@ -27,7 +27,7 @@ const shortenLink = async (link) => {
     linkInput.value = ''
     linkInput.placeholder = 'Generating link...'
     
-    const encoded = btoa('https://gordhoard.org/')
+    const encoded = btoa(link)
       .split('')
       .map(c => c === '=' ? '=' : String.fromCharCode(c.charCodeAt(0) + 1))
       .join('')
