@@ -11,7 +11,7 @@ linkInput.addEventListener('keypress', ev => {
 
 linkInput.addEventListener('paste', ev => {
   let paste = (ev.clipboardData || window.clipboardData).getData('text')
-  shortenLink(paste)
+  setTimeout(() => shortenLink(paste), 10)
 })
 
 linkSubmit.addEventListener('click', ev => {
