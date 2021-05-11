@@ -1,2 +1,1 @@
-
-Copyright (C) 2019 theGordHoard
+Copyright (C) 2019 katlyn
