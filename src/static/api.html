@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,37 +8,53 @@
   <link rel="stylesheet" href="style.css">
   <title>owo.vc API</title>
 </head>
+
 <body>
   <h1 id="header">owo</h1>
   <h2 id="subtitle">API Docs</h2>
   <div class="documentation">
     <p>
-      The owo.vc API is allowed for programatic use to anyone
-      free of charge. Abuse of the API can and will lead to
-      access being revoked. It is requested that you provide
-      contact information in the <code>User-Agent</code>
-      header, but not required.
+      The owo.vc API is allowed for programatic use to anyone free of charge.
+      Abuse of the API can and will lead to access being revoked. It is
+      requested that you provide contact information in the
+      <code>User-Agent</code> header, but not required.
     </p>
     <h3>POST <code>/generate</code></h3>
-    <p>Generates a new link. Requires a JSON body with the following structure.</p>
-    <code class="block">
-      { <br> &ensp;&ensp;
-        "link": "https://gordhoard.org", <br> &ensp;&ensp;
-        "generator": "owo", <br> &ensp;&ensp;
-        "preventScrape": true <br> &ensp;&ensp;
-        "owoify": false <br>
-      }
-    </code>
     <p>
-      <code>link</code> is a valid HTTP/S scheme link that the user is to be redirected to. <br>
-      <code>generator</code> is the generator format to use. Currently <code>owo</code> and <code>zws</code> are available. <br>
-      <code>preventScrape</code> is a boolean that determines if metadata scraping should be blocked.<br>
-      <code>owoify</code> determines if metadata will be owoified. Has no effect if metadata scraping is blocked.
+      Generates a new link. Requires a JSON body with the following structure.
+    </p>
+    <code class="block">{
+  "link": "https://gordhoard.org",
+  "generator": "owo",
+  "preventScrape": true,
+  "owoify": false
+}</code>
+    <p>
+      <code>link</code> is a valid HTTP/S scheme link that the user is to be
+      redirected to.
+    </p>
+    <p>
+      <code>generator</code> is the generator format to use. Currently
+      <code>owo</code> and <code>zws</code> are available.
+    </p>
+    <p>
+      <code>preventScrape</code> is a boolean that determines if metadata
+      scraping should be blocked.
+    </p>
+    <p>
+      <code>owoify</code> determines if metadata will be owoified. Has no effect
+      if metadata scraping is blocked.
     </p>
   </div>
   <div id="footer">
-    <p>Created by theGordHoard. No relation to <a href="https://whats-th.is/" target="_blank">What's This</a>, but you should still go check them out.<br>
-    API docs for programatic usage can found <a href="/api">here</a>.</p>
+    <p>
+      Created by theGordHoard. No relation to
+      <a href="https://whats-th.is/" target="_blank">What's This</a>, but you
+      should still go check them out.
+      <br>
+      API docs for programatic usage can found <a href="/api">here</a>.
+    </p>
   </div>
 </body>
+
 </html>

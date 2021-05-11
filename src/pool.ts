@@ -1,6 +1,5 @@
 import rethinkDBDash from 'rethinkdbdash'
 
-
 export const r = rethinkDBDash({
   host: 'rethink',
   db: 'owo_vc',
@@ -9,9 +8,9 @@ export const r = rethinkDBDash({
 })
 
 export interface Link {
-  id: string,
-  destination: string,
-  preventScrape: boolean,
+  id: string
+  destination: string
+  preventScrape: boolean
   owoify: boolean
 }
 

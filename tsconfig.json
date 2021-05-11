@@ -14,7 +14,8 @@
               "src/types/*"
           ]
       },
-      "lib": ["es2020"]
+      "lib": ["es2020"],
+      "strictNullChecks": true
   },
   "include": [
       "src/**/*"

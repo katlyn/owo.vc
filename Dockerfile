@@ -5,14 +5,14 @@ RUN apk add git
 RUN mkdir /usr/app
 WORKDIR /usr/app
 
-COPY package.json yarn.lock /usr/app/
+COPY package.json package-lock.json /usr/app/
 
 RUN yarn
 
 COPY ./src /usr/app/src/
 COPY ./tsconfig.json /usr/app
 
-RUN yarn build
+RUN npm run build
 
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]
 

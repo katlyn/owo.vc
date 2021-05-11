@@ -6,11 +6,11 @@ let lock = false
 linkInput.addEventListener('keypress', ev => {
   if (ev.keyCode === 13) {
     shortenLink(linkInput.value)
-  } 
+  }
 })
 
 linkInput.addEventListener('paste', ev => {
-  let paste = (ev.clipboardData || window.clipboardData).getData('text')
+  const paste = (ev.clipboardData || window.clipboardData).getData('text')
   setTimeout(() => shortenLink(paste), 10)
 })
 
@@ -26,7 +26,8 @@ const shortenLink = async (link) => {
     console.log(`Shortening ${link}`)
     linkInput.value = ''
     linkInput.placeholder = 'Generating link...'
-    
+
+    // eslint-disable-next-line no-undef
     const encoded = btoa(link)
       .split('')
       .map(c => c === '=' ? '=' : String.fromCharCode(c.charCodeAt(0) + 1))

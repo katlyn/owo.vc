@@ -10,8 +10,8 @@ const subdomains = ['owo', 'uwu', 'ovo', 'uvu']
 
 const dividers = ['-', '_', '/', '.']
 
-export const owo = () => {
-  const random = [ ...randomBytes(8) ]
+export const owo = (): string => {
+  const random = [...randomBytes(8)]
   let id = subdomains[+random[0] % subdomains.length]
   id += '.owo.vc/'
   id += owos[+random[1] % owos.length]

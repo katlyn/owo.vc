@@ -144,5 +144,6 @@ code.block {
   display: block;
   margin: initial;
   padding: 0.5rem;
-  margin: 0.5rem
+  margin: 0.5rem;
+  white-space: pre;
 }

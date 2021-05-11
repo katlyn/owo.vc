@@ -10,11 +10,11 @@ let lock = false
 linkInput.addEventListener('keypress', ev => {
   if (ev.keyCode === 13) {
     shortenLink(linkInput.value)
-  } 
+  }
 })
 
 linkInput.addEventListener('paste', ev => {
-  let paste = (ev.clipboardData || window.clipboardData).getData('text')
+  const paste = (ev.clipboardData || window.clipboardData).getData('text')
   shortenLink(paste)
 })
 
@@ -30,12 +30,13 @@ const shortenLink = async (link) => {
     console.log(`Shortening ${link}`)
     linkInput.value = ''
     linkInput.placeholder = 'Generating link...'
+    // eslint-disable-next-line no-undef
     const response = await fetch('/generate', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
         // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
+      },
       body: JSON.stringify({
         link,
         generator: zws.checked ? 'zws' : 'owo',
