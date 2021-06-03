@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   web:
     container_name: owo.vc-web
@@ -8,6 +8,6 @@ services:
       - 3000:80
   rethink:
     container_name: owo.vc-rethink
-    image: rethinkdb:2.3.6
+    image: rethinkdb:2.4.0
     volumes:
       - "./data/rethink:/data"
