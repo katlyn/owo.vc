@@ -9,6 +9,7 @@ import fetch from 'node-fetch'
 
 import owoify from './owoifier'
 
+import { gay } from './generators/gay'
 import { owo } from './generators/owo'
 import { zws } from './generators/zws'
 
@@ -26,6 +27,10 @@ app.post('/generate', async (req, res) => {
     let generator = owo
     if (typeof req.body.generator === 'string') {
       switch (req.body.generator) {
+        case 'gay':
+          generator = gay
+          break
+
         case 'owo':
           generator = owo
           break
