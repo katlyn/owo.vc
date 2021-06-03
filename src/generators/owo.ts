@@ -1,6 +1,7 @@
 import { randomBytes } from 'crypto'
 
-const owos = ['owo', 'Owo', 'OwO', 'owO', 'oWo', 'OWO',
+const owos = [
+  'owo', 'Owo', 'OwO', 'owO', 'oWo', 'OWO',
   'uwu', 'Uwu', 'UwU', 'uwU', 'uWu', 'UWU',
   'ovo', 'Ovo', 'OvO', 'ovO', 'oVo', 'oVo',
   'uvu', 'Uvu', 'UvU', 'uvU', 'uVu', 'UVU'
