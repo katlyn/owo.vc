@@ -10,27 +10,21 @@
 </head>
 
 <body>
-  <h1 id="header">owo</h1>
+  <h1 id="header"><a href="/">owo</a></h1>
   <h2 id="subtitle">A simple link obfuscator</h2>
   <div id="link">
+    <select name="generator" id="generator">
+      <option value="owo">owo</option>
+      <option value="gay">gay</option>
+      <option value="zws">zws</option>
+    </select>
     <input id="input" type="text" placeholder="Link to shorten...">
+    <select name="metadata" id="metadata">
+      <option value="owoify">Owoify metadata</option>
+      <option value="proxy">Proxy metadata</option>
+      <option value="ignore">Ignore metadata</option>
+    </select>
     <button id="submit">owo-ify</button>
-  </div>
-  <div class="options">
-    <div>
-      <input type="checkbox" id="zws" name="zws">
-      <label for="zws">Use ZWS shortening</label>
-    </div>
-
-    <div>
-      <input type="checkbox" id="preventScrape" name="preventScrape">
-      <label for="preventScrape">Prevent metadata scraping</label>
-    </div>
-
-    <div>
-      <input type="checkbox" id="owoify" name="owoify" checked>
-      <label for="owoify">Owoify metadata</label>
-    </div>
   </div>
   <div id="footer">
     <p>

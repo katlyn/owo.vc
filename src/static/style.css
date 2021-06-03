@@ -33,7 +33,11 @@ body {
 #header {
   font-size: 10rem;
   color: var(--primary)
+}
 
+#header a {
+  color: inherit;
+  text-decoration: inherit;
 }
 
 #subtitle {
@@ -56,6 +60,7 @@ body {
   width: 75%;
   max-width: 50rem;
   display: flex;
+  gap: 0.5em;
 }
 
 input {
@@ -72,9 +77,8 @@ input {
   outline: none;
 }
 
-button {
+button, select {
   margin-top: 2rem;
-  margin-left: 0.5rem;
   font-size: 1rem;
   padding: 0.5rem;
   background: var(--darker);
@@ -90,11 +94,11 @@ button {
   cursor: pointer;
 }
 
-input:hover, button:hover {
+input:hover, button:hover, select:hover {
   border-bottom-color: var(--secondary);
 }
 
-input:focus, button:focus {
+input:focus, button:focus, select:focus {
   border-bottom-color: var(--accent);
 }
 
@@ -109,13 +113,6 @@ a {
 
 .error:focus, .error:hover, .error {
   border-bottom-color: var(--error);
-}
-
-.options {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  user-select: none;
-  width: 50%;
 }
 
 input[type="checkbox"], label {

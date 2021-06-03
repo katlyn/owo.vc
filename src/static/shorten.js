@@ -1,9 +1,8 @@
 const linkInput = document.getElementById('input')
 const linkSubmit = document.getElementById('submit')
 
-const zws = document.getElementById('zws')
-const preventScrape = document.getElementById('preventScrape')
-const owoify = document.getElementById('owoify')
+const generator = document.getElementById('generator')
+const metadataHandling = document.getElementById('metadata')
 
 let lock = false
 
@@ -20,6 +19,14 @@ linkInput.addEventListener('paste', ev => {
 
 linkSubmit.addEventListener('click', ev => {
   shortenLink(linkInput.value)
+})
+
+generator.addEventListener('input', () => {
+  // Don't owoify by default if the user changes to gay links
+  console.log(generator.value, metadataHandling.value)
+  if (generator.value === 'gay' && metadataHandling.value === 'owoify') {
+    metadataHandling.value = 'proxy'
+  }
 })
 
 const shortenLink = async (link) => {
@@ -39,9 +46,9 @@ const shortenLink = async (link) => {
       },
       body: JSON.stringify({
         link,
-        generator: zws.checked ? 'zws' : 'owo',
-        preventScrape: preventScrape.checked,
-        owoify: owoify.checked
+        generator: generator.value,
+        preventScrape: metadataHandling.value === 'ignore',
+        owoify: metadataHandling.value === 'owoify'
       })
     })
     if (response.ok) {
