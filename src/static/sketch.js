@@ -5,17 +5,17 @@ let lock = false
 
 linkInput.addEventListener('keypress', ev => {
   if (ev.keyCode === 13) {
-    shortenLink(linkInput.value)
+    unshortenLink(linkInput.value)
   }
 })
 
 linkInput.addEventListener('paste', ev => {
   const paste = (ev.clipboardData || window.clipboardData).getData('text')
-  setTimeout(() => shortenLink(paste), 10)
+  setTimeout(() => unshortenLink(paste), 10)
 })
 
 linkSubmit.addEventListener('click', ev => {
-  shortenLink(linkInput.value)
+  unshortenLink(linkInput.value)
 })
 
 const shortenLink = async (link) => {
@@ -40,6 +40,38 @@ const shortenLink = async (link) => {
     linkInput.classList.add('error')
     linkInput.value = ''
     linkInput.placeholder = 'Invalid link!'
+  }
+  lock = false
+}
+
+const unshortenLink = async (link) => {
+  if (lock) return
+  lock = true
+  try {
+    const isUrl = /(?:https?:\/\/).+\..+/
+    if (isUrl.test(link)) {
+      console.log(`Unshortening ${link}`)
+      linkInput.value = ''
+      linkInput.placeholder = 'Unshortening link...'
+
+      const path = decodeURIComponent(new URL(link).pathname.substring(1))
+
+      // eslint-disable-next-line no-undef
+      const decoded = atob(path.split('')
+        .map(c => c === '=' ? '=' : String.fromCharCode(c.charCodeAt(0) - 1))
+        .join(''))
+
+      linkInput.value = decoded
+      linkInput.placeholder = 'Link to unshorten...'
+      linkInput.select()
+    } else {
+      linkInput.classList.add('error')
+      linkInput.value = ''
+      linkInput.placeholder = 'Invalid link!'
+    }
+  } catch (err) {
+    console.error(err)
+    alert('Unable to decode input.')
   }
   lock = false
 }

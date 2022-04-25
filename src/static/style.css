@@ -56,11 +56,24 @@ body {
   text-align: center;
 }
 
+#footer p {
+  text-align: center;
+  width: initial;
+}
+
 #link {
   width: 75%;
   max-width: 50rem;
   display: flex;
   gap: 0.5em;
+}
+
+p {
+  width: 75%;
+  max-width: 50rem;
+  line-height: 1.75em;
+  margin-top: 1.25em;
+  text-align: left;
 }
 
 input {
