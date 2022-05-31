@@ -6,6 +6,7 @@ import cors from 'cors'
 import cheerio from 'cheerio'
 import fetch from 'node-fetch'
 import { Prisma, PrismaClient } from '@prisma/client'
+import { join } from 'path'
 
 import owoify from './owoifier'
 
@@ -72,7 +73,14 @@ app.post('/generate', async (req, res) => {
   }
 })
 
-app.use(async (req, res) => {
+const serveStatic = express.static(join(__dirname, '../static'))
+app.use(async (req, res, next) => {
+  // Serve static files on owo.vc
+  if (req.hostname === '172.18.0.4') {
+    serveStatic(req, res, next)
+    return
+  }
+
   if (req.method === 'GET') {
     // TODO: Add some sort of logging or metrics here
     const url = decodeURI(req.hostname + req.path)

@@ -9,7 +9,8 @@ COPY package.json package-lock.json ./
 
 RUN npm ci && npx prisma generate
 
-COPY ./src ./src/
+COPY static static
+COPY src src
 COPY ./tsconfig.json ./
 
 RUN npm run build
