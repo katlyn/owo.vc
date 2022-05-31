@@ -28,3 +28,20 @@ jobs:
         with:
           push: true
           tags: ghcr.io/katlyn/owo.vc:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Deploy via ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            cd ${{ secrets.DEPLOY_PATH }}
+            docker-compose pull
+            docker-compose up -d
+
