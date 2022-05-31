@@ -76,7 +76,8 @@ app.post('/generate', async (req, res) => {
 const serveStatic = express.static(join(__dirname, '../static'))
 app.use(async (req, res, next) => {
   // Serve static files on owo.vc
-  if (req.hostname === '172.18.0.4') {
+  console.log(req.hostname, process.env.DOMAIN)
+  if (req.hostname === process.env.DOMAIN) {
     serveStatic(req, res, next)
     return
   }
@@ -104,7 +105,7 @@ app.use(async (req, res, next) => {
         // TODO: Move metadata fetching to link creation and cache it
         const page = await fetch(linkData.destination, {
           headers: {
-            'User-Agent': 'OWObot (https://owo.vc/)'
+            'User-Agent': `OWObot (https://${process.env.DOMAIN}/)`
           }
         })
         if (page.ok) {
