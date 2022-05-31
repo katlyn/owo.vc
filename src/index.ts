@@ -2,16 +2,18 @@ import 'source-map-support/register'
 
 import express from 'express'
 import isBot from 'isbot'
-import { r, Link } from './pool'
 import cors from 'cors'
 import cheerio from 'cheerio'
 import fetch from 'node-fetch'
+import { Prisma, PrismaClient } from '@prisma/client'
 
 import owoify from './owoifier'
 
 import { gay } from './generators/gay'
 import { owo } from './generators/owo'
 import { zws } from './generators/zws'
+
+const prisma = new PrismaClient()
 
 const app = express()
 const isUrl = /(?:https?:\/\/).+\..+/
@@ -45,21 +47,25 @@ app.post('/generate', async (req, res) => {
       }
     }
     const id = generator()
-    const dbResponse = await r.table('links').insert({
-      destination: req.body.link,
-      id,
-      preventScrape: !!(req.body.preventScrape as boolean),
-      owoify: !!(req.body.owoify as boolean)
-    }).run()
-    if (dbResponse.errors > 0) {
-      res.status(500).send('Conflicting IDs')
-    } else {
-      res.json({
-        result: id,
-        destination: req.body.link,
-        preventScrape: !!(req.body.preventScrape as boolean),
-        owoify: !!(req.body.owoify as boolean)
+    try {
+      const dbResponse = await prisma.link.create({
+        data: {
+          id,
+          destination: req.body.link,
+          preventScrape: !!(req.body.preventScrape as boolean),
+          owoify: !!(req.body.owoify as boolean)
+        }
       })
+      res.json(dbResponse)
+    } catch (e) {
+      res.status(500).send({ error: 'Conflicting IDs'})
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') {
+          res.status(500).send({ error: 'Conflicting IDs' })
+        } else {
+          res.status(500).send({ error: 'Uknown Error' })
+        }
+      }
     }
   } else {
     res.status(400).send('Malformed request')
@@ -68,9 +74,9 @@ app.post('/generate', async (req, res) => {
 
 app.use(async (req, res) => {
   if (req.method === 'GET') {
+    // TODO: Add some sort of logging or metrics here
     const url = decodeURI(req.hostname + req.path)
-    console.log(url)
-    const linkData = await r.table<Link>('links').get(url).run()
+    const linkData = await prisma.link.findUnique({ where: { id: url } })
     if (linkData !== null) {
       if (linkData.preventScrape && isBot(req.header('User-Agent') as string)) {
         return res.status(200).end()
@@ -124,4 +130,6 @@ app.use(async (req, res) => {
   }
 })
 
-app.listen(80)
+app.listen(80).on('close', () => {
+  prisma.$disconnect()
+})

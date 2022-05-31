@@ -1,19 +1,16 @@
-FROM node:10-alpine
+FROM node:16-alpine
 
-RUN apk add git
+WORKDIR /usr/owo-vc
 
-# Don't do dumb things with ssh
-RUN git config --global url."https://github.com".insteadOf ssh://git@github.com
+EXPOSE 80
 
-RUN mkdir /usr/app
-WORKDIR /usr/app
+COPY prisma prisma
+COPY package.json package-lock.json ./
 
-COPY package.json package-lock.json /usr/app/
+RUN npm ci && npx prisma generate
 
-RUN npm ci
-
-COPY ./src /usr/app/src/
-COPY ./tsconfig.json /usr/app
+COPY ./src ./src/
+COPY ./tsconfig.json ./
 
 RUN npm run build
 

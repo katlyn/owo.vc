@@ -1,13 +1,26 @@
 version: '3'
 services:
   web:
-    container_name: owo.vc-web
     build: .
-    restart: always
-    ports:
-      - 3000:80
-  rethink:
-    container_name: owo.vc-rethink
-    image: rethinkdb:2.4.0
+    restart: unless-stopped
+    links:
+      - db
+    depends_on:
+      - migration
+    env_file:
+      - ./.env
+  migration:
+    build: .
+    links:
+      - db
+    command: [npm, run, migrate]
+    env_file:
+      - ./.env
+  db:
+    image: postgres:12.11-alpine
     volumes:
-      - "./data/rethink:/data"
+      - ./data/postgres:/var/lib/postgresql/data
+    env_file:
+      - ./db.env
+    ports:
+      - 5432:5432
