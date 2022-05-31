@@ -76,14 +76,27 @@ app.use(async (req, res) => {
   if (req.method === 'GET') {
     // TODO: Add some sort of logging or metrics here
     const url = decodeURI(req.hostname + req.path)
-    const linkData = await prisma.link.findUnique({ where: { id: url } })
-    if (linkData !== null) {
-      if (linkData.preventScrape && isBot(req.header('User-Agent') as string)) {
+    const bot = isBot(req.header('User-Agent'))
+    try {
+      const linkData = await prisma.link.update({
+        where: { id: url },
+        data: {
+          visits: {
+            increment: bot ? 0 : 1
+          },
+          scrapes: {
+            increment: bot ? 1 : 0
+          }
+        }
+      })
+
+      if (linkData.preventScrape && bot) {
         return res.status(200).end()
-      } else if (linkData.owoify && isBot(req.header('User-Agent') as string)) {
+      } else if (linkData.owoify && bot) {
+        // TODO: Move metadata fetching to link creation and cache it
         const page = await fetch(linkData.destination, {
           headers: {
-            'User-Agent': 'OWObot (https://owo.vc)'
+            'User-Agent': 'OWObot (https://owo.vc/)'
           }
         })
         if (page.ok) {
@@ -121,13 +134,12 @@ app.use(async (req, res) => {
           return res.send(`<html><head>${cheerio.html(metaTags)}</head><body></body></html>`)
         }
       }
-      res.redirect(linkData.destination)
-    } else {
-      res.status(404).send('Not found')
+      return res.redirect(linkData.destination)
+    } catch (e) {
+      // Beep boop? Boop beep.
     }
-  } else {
-    res.status(404).send('Not found')
   }
+  res.status(404).send('404 Not Found u-u')
 })
 
 app.listen(80).on('close', () => {
