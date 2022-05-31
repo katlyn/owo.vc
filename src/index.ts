@@ -57,7 +57,10 @@ app.post('/generate', async (req, res) => {
           owoify: !!(req.body.owoify as boolean)
         }
       })
-      res.json(dbResponse)
+      res.json({
+        ...dbResponse,
+        result: dbResponse.id
+      })
     } catch (e) {
       res.status(500).send({ error: 'Conflicting IDs'})
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
