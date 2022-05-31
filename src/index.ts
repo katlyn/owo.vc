@@ -76,6 +76,18 @@ app.post('/generate', async (req, res) => {
   }
 })
 
+app.get('/stats/:url', async (req, res) => {
+  if (typeof req.params.url === 'string') {
+    const url = decodeURIComponent(req.params.url)
+    const linkData = await prisma.link.findUnique({ where: { id: url } })
+    if (linkData === null) {
+      res.status(404).send({ error: 'link not found' })
+      return
+    }
+    res.json(linkData)
+  }
+})
+
 const serveStatic = express.static(join(__dirname, '../static'))
 app.use(async (req, res, next) => {
   // Serve static files on owo.vc
