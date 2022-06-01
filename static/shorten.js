@@ -69,3 +69,63 @@ const shortenLink = async (link) => {
   }
   lock = false
 }
+
+// Link information handling
+const infoLink = document.getElementById('link')
+const infoSubmit = document.getElementById('info-submit')
+
+let infoLock = false
+
+infoLink.addEventListener('keypress', ev => {
+  if (ev.keyCode === 13) {
+    getInfo(infoLink.value)
+  }
+})
+
+infoLink.addEventListener('paste', ev => {
+  const paste = (ev.clipboardData || window.clipboardData).getData('text')
+  getInfo(paste)
+})
+
+infoSubmit.addEventListener('click', ev => {
+  getInfo(infoLink.value)
+})
+
+const getInfo = async (link) => {
+  link = link.trim()
+  if (infoLock || link === '') return
+  infoLock = true
+  // Trim url scheme from link
+  if (link.startsWith('http')) {
+    link = link.replace(/https?:\/\//, '')
+  }
+  const encodedLink = encodeURIComponent(link)
+  try {
+    const request = await fetch(`/info/${encodedLink}`)
+    if (request.ok) {
+      const linkInfo = await request.json()
+      infoLink.classList.remove('error')
+      document.getElementById('info-results').style = ''
+      document.getElementById('info-results-body').innerHTML += `<tr>
+      <td>${linkInfo.id}</td>
+      <td>${linkInfo.destination}</td>
+      <td>
+        ${linkInfo.preventScrape ? 'Prevent Scrape' : ''}
+        ${linkInfo.owoify ? 'Owoify' : ''}
+      </td>
+      <td>${linkInfo.visits}</td>
+      <td>${linkInfo.scrapes}</td>
+      </tr>`
+    } else {
+      infoLink.classList.add('error')
+      infoLink.value = ''
+      const res = await request.json()
+      infoLink.placeholder = res.error
+    }
+  } catch (e) {
+    infoLink.classList.add('error')
+    infoLink.value = ''
+    infoLink.placeholder = e
+  }
+  infoLock = false
+}

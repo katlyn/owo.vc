@@ -12,7 +12,7 @@
 <body>
   <h1 id="header"><a href="/">owo</a></h1>
   <h2 id="subtitle">A simple link obfuscator</h2>
-  <div id="link">
+  <div class="link-form">
     <select name="generator" id="generator">
       <option value="owo">owo</option>
       <option value="gay">gay</option>
@@ -26,16 +26,42 @@
     </select>
     <button id="submit">owo-ify</button>
   </div>
+  <br>
+  <hr>
+  <p>
+    Have an owo.vc link and want to get some information on it? Throw it in
+    here and we'll look it up for you.
+  </p>
+  <div class="link-form" style="margin-top: 0.5rem;">
+    <input id="link" type="text" placeholder="owo.vc link to get info on...">
+    <button id="info-submit">Get Info</button>
+  </div>
+  <table id="info-results" style="display: none">
+    <thead>
+      <th>Link</th>
+      <th>Destination</th>
+      <th>Features</th>
+      <th># Clicks</th>
+      <th># Scrapes</th>
+    </thead>
+    <tbody id="info-results-body"></tbody>
+  </table>
   <div id="footer">
     <p>
       Created by <a href="https://github.com/katlyn/">katlyn</a>.
       <br>
-      API docs for programmatic usage can found <a href="api.html">here</a>. If you
-      have a sketchy link, make it unsketchy <a href="sketch.html">here</a>.
+      API docs for programmatic usage can found <a href="api.html">here</a>. If
+      you have a sketchy link, make it unsketchy <a href="sketch.html">here</a>.
     </p>
   </div>
   <script src="shorten.js"></script>
-  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1cafaee6f1ee4407b3c2f8266fddfb23"}'></script><!-- End Cloudflare Web Analytics -->
+  <!-- Cloudflare Web Analytics -->
+  <script
+    defer
+    src='https://static.cloudflareinsights.com/beacon.min.js'
+    data-cf-beacon='{"token": "1cafaee6f1ee4407b3c2f8266fddfb23"}'
+  ></script>
+  <!-- End Cloudflare Web Analytics -->
 </body>
 
 </html>
