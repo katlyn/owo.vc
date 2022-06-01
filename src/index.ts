@@ -76,7 +76,7 @@ app.post('/generate', async (req, res) => {
   }
 })
 
-app.get('/stats/:url', async (req, res) => {
+app.get('/info/:url', async (req, res) => {
   if (typeof req.params.url === 'string') {
     const url = decodeURIComponent(req.params.url)
     const linkData = await prisma.link.findUnique({ where: { id: url } })
