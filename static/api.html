@@ -14,7 +14,7 @@
   <h2 id="subtitle">API Docs</h2>
   <div class="documentation">
     <p>
-      The owo.vc API is allowed for programatic use to anyone free of charge.
+      The owo.vc API is allowed for programmatic use to anyone free of charge.
       Abuse of the API can and will lead to access being revoked. It is
       requested that you provide contact information in the
       <code>User-Agent</code> header, but not required.
@@ -45,12 +45,17 @@
       <code>owoify</code> determines if metadata will be owoified. Has no effect
       if metadata scraping is blocked.
     </p>
+    <h3>GET <code>/info/:link</code></h3>
+    <p>
+      Return current information on the given owo.vc link. Link
+      <strong>must</strong> be encoded as a URI component.
+    </p>
   </div>
   <div id="footer">
     <p>
       Created by <a href="https://github.com/katlyn/">katlyn</a>.
       <br>
-      API docs for programatic usage can found <a href="/api.html">here</a>.
+      API docs for programmatic usage can found <a href="/api.html">here</a>.
     </p>
   </div>
   <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1cafaee6f1ee4407b3c2f8266fddfb23"}'></script><!-- End Cloudflare Web Analytics -->
