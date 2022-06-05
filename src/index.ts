@@ -1,6 +1,6 @@
 import 'source-map-support/register'
 
-import express from 'express'
+import express, { NextFunction } from 'express'
 import isBot from 'isbot'
 import cors from 'cors'
 import cheerio from 'cheerio'
@@ -89,14 +89,16 @@ app.get('/info/:url', async (req, res) => {
 })
 
 const serveStatic = express.static(join(__dirname, '../static'))
+
 app.use(async (req, res, next) => {
-  // Serve static files on owo.vc
+  // Serve static files only on owo.vc
   console.log(req.hostname, process.env.DOMAIN)
   if (req.hostname === process.env.DOMAIN) {
     serveStatic(req, res, next)
-    return
   }
+})
 
+app.use(async (req, res, next) => {
   if (req.method === 'GET') {
     // TODO: Add some sort of logging or metrics here
     const url = decodeURI(req.hostname + req.path)
