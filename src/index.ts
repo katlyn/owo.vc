@@ -95,6 +95,8 @@ app.use(async (req, res, next) => {
   console.log(req.hostname, process.env.DOMAIN)
   if (req.hostname === process.env.DOMAIN) {
     serveStatic(req, res, next)
+  } else {
+    next()
   }
 })
 
