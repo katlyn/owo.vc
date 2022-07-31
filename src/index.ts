@@ -28,6 +28,11 @@ app.options('/generate', cors())
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 app.post('/generate', async (req, res) => {
   if (typeof req.body.link === 'string' && isUrl.test(req.body.link)) {
+    const url = new URL(req.body.link)
+    if (['owo.vc', 'owo.gay', '0x6f776f2e7663.net'].find(d => url.hostname.includes(d)) !== void 0) {
+      res.status(400).send('Refusing to shorten an already shortened link')
+      return
+    }
     let generator = owo
     if (typeof req.body.generator === 'string') {
       switch (req.body.generator) {
@@ -97,7 +102,6 @@ const serveStatic = express.static(join(__dirname, '../static'))
 
 app.use(async (req, res, next) => {
   // Serve static files only on owo.vc
-  console.log(req.hostname, process.env.DOMAIN)
   if (req.hostname === process.env.DOMAIN) {
     serveStatic(req, res, next)
   } else {

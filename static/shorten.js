@@ -63,7 +63,7 @@ const shortenLink = async (link) => {
     } else {
       linkInput.classList.add('error')
       linkInput.value = ''
-      linkInput.placeholder = 'Error generating link!'
+      linkInput.placeholder = await response.text()
     }
   } else {
     linkInput.classList.add('error')
