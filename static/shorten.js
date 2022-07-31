@@ -6,8 +6,8 @@ const metadataHandling = document.getElementById('metadata')
 
 let lock = false
 
-linkInput.addEventListener('keypress', ev => {
-  if (ev.keyCode === 13) {
+linkInput.addEventListener('keyup', ev => {
+  if (ev.key === 'Enter') {
     shortenLink(linkInput.value)
   }
 })
@@ -23,10 +23,13 @@ linkSubmit.addEventListener('click', ev => {
 
 generator.addEventListener('input', () => {
   // Don't owoify by default if the user changes to gay links
-  console.log(generator.value, metadataHandling.value)
-  if (generator.value === 'gay' && metadataHandling.value === 'owoify') {
-    metadataHandling.value = 'proxy'
+  const defaults = {
+    owo: 'owoify',
+    gay: 'proxy',
+    zws: 'proxy',
+    sketchy: 'proxy'
   }
+  metadataHandling.value = defaults[generator.value]
 })
 
 const shortenLink = async (link) => {

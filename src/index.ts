@@ -1,6 +1,6 @@
 import 'source-map-support/register'
 
-import express, { NextFunction } from 'express'
+import express from 'express'
 import isBot from 'isbot'
 import cors from 'cors'
 import cheerio from 'cheerio'
@@ -13,6 +13,7 @@ import owoify from './owoifier'
 import { gay } from './generators/gay'
 import { owo } from './generators/owo'
 import { zws } from './generators/zws'
+import { sketchy } from './generators/sketchy'
 
 const prisma = new PrismaClient()
 
@@ -42,6 +43,10 @@ app.post('/generate', async (req, res) => {
           generator = zws
           break
 
+        case 'sketchy':
+          generator = sketchy
+          break
+
         default:
           res.status(400).send('Invalid generator')
           return
@@ -62,7 +67,7 @@ app.post('/generate', async (req, res) => {
         result: dbResponse.id
       })
     } catch (e) {
-      res.status(500).send({ error: 'Conflicting IDs'})
+      res.status(500).send({ error: 'Conflicting IDs' })
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2002') {
           res.status(500).send({ error: 'Conflicting IDs' })
@@ -170,6 +175,6 @@ app.use(async (req, res, next) => {
   res.status(404).send('404 Not Found u-u')
 })
 
-app.listen(80).on('close', () => {
-  prisma.$disconnect()
+app.listen(80).on('close', async () => {
+  await prisma.$disconnect()
 })
