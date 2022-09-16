@@ -111,6 +111,10 @@ app.use(async (req, res, next) => {
 
 app.use(async (req, res, next) => {
   if (req.method === 'GET') {
+    // Don't attempt to serivce our own scraper
+    if (req.header('User-Agent')?.toLowerCase().includes('owobot') ?? false) {
+      return res.status(204).end()
+    }
     // TODO: Add some sort of logging or metrics here
     const url = decodeURI(req.hostname + req.path)
     const bot = isBot(req.header('User-Agent'))
