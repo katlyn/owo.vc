@@ -135,7 +135,7 @@ app.use(async (req, res, next) => {
       })
 
       if (linkData.status === LinkStatus.DISABLED) {
-        res.status(linkData?.comment?.code ?? 410)
+        res.status(410)
         let reply = 'This link is no longer available.'
         if (linkData.comment !== null) {
           reply += `\nOperator comments: ${linkData.comment.text}`
