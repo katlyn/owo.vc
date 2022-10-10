@@ -98,6 +98,32 @@ app.get('/info/:url', async (req, res) => {
   }
 })
 
+app.post('/disable/:url', async (req, res) => {
+  const url = req.params.url
+  const comment = req.body.comment as string | undefined
+  const updateData: Parameters<typeof prisma.link.update>[0] = {
+    where: {
+      id: url
+    },
+    data: {
+      status: LinkStatus.DISABLED
+    },
+    include: {
+      comment: true
+    }
+  }
+  if (comment !== void 0) {
+    updateData.data.comment = {
+      upsert: {
+        create: { text: comment },
+        update: { text: comment }
+      }
+    }
+  }
+  const linkData = await prisma.link.update(updateData)
+  return res.status(200).json(linkData)
+})
+
 const serveStatic = express.static(join(__dirname, '../static'))
 
 app.use(async (req, res, next) => {
