@@ -5,7 +5,7 @@ import isBot from 'isbot'
 import cors from 'cors'
 import cheerio from 'cheerio'
 import fetch from 'node-fetch'
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient, LinkStatus } from '@prisma/client'
 import { join } from 'path'
 
 import owoify from './owoifier'
@@ -128,8 +128,21 @@ app.use(async (req, res, next) => {
           scrapes: {
             increment: bot ? 1 : 0
           }
+        },
+        include: {
+          comment: true
         }
       })
+
+      if (linkData.status === LinkStatus.DISABLED) {
+        res.status(linkData?.comment?.code ?? 410)
+        let reply = 'This link is no longer available.'
+        if (linkData.comment !== null) {
+          reply += `\nOperator comments: ${linkData.comment.text}`
+        }
+        res.send(reply)
+        return res.end()
+      }
 
       if (linkData.preventScrape && bot) {
         return res.status(200).end()
