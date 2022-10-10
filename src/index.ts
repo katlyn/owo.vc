@@ -89,10 +89,17 @@ app.post('/generate', async (req, res) => {
 app.get('/info/:url', async (req, res) => {
   if (typeof req.params.url === 'string') {
     const url = decodeURIComponent(req.params.url)
-    const linkData = await prisma.link.findUnique({ where: { id: url } })
+    const linkData = await prisma.link.findUnique({
+      where: { id: url },
+      include: { comment: true }
+    })
     if (linkData === null) {
       res.status(404).send({ error: 'link not found' })
       return
+    }
+    // Obscure destination link if the link is disabled
+    if (linkData.status === LinkStatus.DISABLED) {
+      linkData.destination = `https://${linkData.id}`
     }
     res.json(linkData)
   }
