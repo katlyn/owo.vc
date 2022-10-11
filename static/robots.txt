@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+Disallow: /generate
+Disallow: /info
+Disallow: /disable
