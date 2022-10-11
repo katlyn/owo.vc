@@ -106,6 +106,11 @@ app.get('/info/:url', async (req, res) => {
 })
 
 app.post('/disable/:url', async (req, res) => {
+  // Check to see fi the request is authorized
+  const { authorization } = req.headers
+  if (authorization !== `Bearer ${process.env.ADMIN_AUTH}`) {
+    return res.status(401).send('Permission denied').end()
+  }
   const url = req.params.url
   const comment = req.body.comment as string | undefined
   const updateData: Parameters<typeof prisma.link.update>[0] = {
