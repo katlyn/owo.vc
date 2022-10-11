@@ -174,6 +174,10 @@ app.use(async (req, res, next) => {
   }
 })
 
+app.get('/robots.txt', (req, res) => {
+  res.contentType('txt').send('User-Agent: *\nDisallow: /')
+})
+
 app.use(async (req, res, next) => {
   if (req.method === 'GET') {
     // Don't attempt to serivce our own scraper
