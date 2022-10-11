@@ -71,6 +71,33 @@ app.post('/generate', async (req, res) => {
         ...dbResponse,
         result: dbResponse.id
       })
+      res.end()
+
+      const reportingRequest = await fetch(process.env.REPORTING_URL as string, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          embeds: [{
+            timestamp: dbResponse.createdAt.toISOString(),
+            fields: [{
+              name: 'ID',
+              value: dbResponse.id
+            }, {
+              name: 'Destination',
+              value: dbResponse.destination
+            }, {
+              name: 'Features',
+              value: `${dbResponse.owoify ? 'owoify' : ''} ${dbResponse.preventScrape ? 'preventScrape' : ''}`.trim()
+            }],
+            footer: {
+              text: req.headers['user-agent'] ?? 'No useragent'
+            }
+          }]
+        })
+      })
+      if (!reportingRequest.ok) {
+        console.error('Unable to report link creation', dbResponse, await reportingRequest.text())
+      }
     } catch (e) {
       res.status(500).send({ error: 'Conflicting IDs' })
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
