@@ -7,7 +7,7 @@ const zwChars = [
   '\u180E'
 ]
 
-// Cap every link with this so it won't get trimmed out of messages
+// Cap every link with this character so blank characters won't get trimmed from the end of a link automatically
 const zwc = '\u200B'
 
 export const zws = (): string => {

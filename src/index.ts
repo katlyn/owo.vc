@@ -180,7 +180,7 @@ app.get('/robots.txt', (req, res) => {
   res.contentType('txt').send('User-Agent: *\nDisallow: /')
 })
 
-app.use(async (req, res, next) => {
+app.use(async (req, res) => {
   if (req.method === 'GET') {
     // Don't attempt to service our own scraper
     if (req.header('User-Agent')?.toLowerCase().includes('owobot') ?? false) {
