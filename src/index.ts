@@ -8,6 +8,8 @@ import fetch from 'node-fetch'
 import { Prisma, PrismaClient, LinkStatus } from '@prisma/client'
 import { join } from 'path'
 
+import env from './config/env'
+
 import owoify from './owoifier'
 
 import { gay } from './generators/gay'
@@ -73,7 +75,7 @@ app.post('/generate', async (req, res) => {
       })
       res.end()
 
-      const reportingRequest = await fetch(process.env.REPORTING_URL as string, {
+      const reportingRequest = await fetch(env.reportingUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -135,7 +137,7 @@ app.get('/info/:url', async (req, res) => {
 app.post('/disable/:url', async (req, res) => {
   // Check to see fi the request is authorized
   const { authorization } = req.headers
-  if (authorization !== `Bearer ${process.env.ADMIN_AUTH}`) {
+  if (authorization !== `Bearer ${env.adminAuth.reveal()}`) {
     return res.status(401).send('Permission denied').end()
   }
   const url = req.params.url
@@ -167,7 +169,7 @@ const serveStatic = express.static(join(__dirname, '../static'))
 
 app.use(async (req, res, next) => {
   // Serve static files only on owo.vc
-  if (req.hostname === process.env.DOMAIN) {
+  if (req.hostname === env.domain) {
     serveStatic(req, res, next)
   } else {
     next()
@@ -219,7 +221,7 @@ app.use(async (req, res, next) => {
         // TODO: Move metadata fetching to link creation and cache it
         const page = await fetch(linkData.destination, {
           headers: {
-            'User-Agent': `OWObot (https://${process.env.DOMAIN}/)`
+            'User-Agent': `OWObot (https://${env.domain}/)`
           }
         })
         if (page.ok) {
