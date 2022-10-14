@@ -6,8 +6,8 @@ export const owos = [
 ]
 
 export default (s: string): string => {
-  return s.replace(/(?:r|l)/g, 'w')
-    .replace(/(?:R|L)/g, 'W')
+  return s.replace(/([rl])/g, 'w')
+    .replace(/([RL])/g, 'W')
     .replace(/n([aeiou])/g, 'ny$1')
     .replace(/N([aeiou])/g, 'Ny$1')
     .replace(/ove/g, 'uv')
