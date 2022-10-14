@@ -18,7 +18,7 @@ import { sketchy } from './generators/sketchy'
 const prisma = new PrismaClient()
 
 const app = express()
-const isUrl = /(?:https?:\/\/).+\..+/
+const isUrl = /(https?:\/\/).+\..+/
 
 app.use(express.json())
 
@@ -63,8 +63,8 @@ app.post('/generate', async (req, res) => {
         data: {
           id,
           destination: req.body.link,
-          preventScrape: !!(req.body.preventScrape as boolean),
-          owoify: !!(req.body.owoify as boolean)
+          preventScrape: req.body.preventScrape as unknown === true,
+          owoify: req.body.owoify as unknown === true
         }
       })
       res.json({
@@ -104,7 +104,7 @@ app.post('/generate', async (req, res) => {
         if (e.code === 'P2002') {
           res.status(500).send({ error: 'Conflicting IDs' })
         } else {
-          res.status(500).send({ error: 'Uknown Error' })
+          res.status(500).send({ error: 'Unknown Error' })
         }
       }
     }
@@ -180,7 +180,7 @@ app.get('/robots.txt', (req, res) => {
 
 app.use(async (req, res, next) => {
   if (req.method === 'GET') {
-    // Don't attempt to serivce our own scraper
+    // Don't attempt to service our own scraper
     if (req.header('User-Agent')?.toLowerCase().includes('owobot') ?? false) {
       return res.status(204).end()
     }
