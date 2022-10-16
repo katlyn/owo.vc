@@ -27,6 +27,7 @@ export const GenerateOptions = Type.Object({
 export type GenerateOptionsType = Static<typeof GenerateOptions>
 
 async function link (fastify: FastifyInstance): Promise<void> {
+  // POST request to /link, generate a new shortened link
   fastify.post<{ Body: GenerateOptionsType }>('/', {
     schema: {
       body: GenerateOptions
@@ -50,6 +51,7 @@ async function link (fastify: FastifyInstance): Promise<void> {
           owoify: options.owoify
         }
       })
+      // Report the link creation, discard any errors
       void makeLinkReport(dbResponse, request.headers['user-agent'])
       return dbResponse
     } catch (e) {
@@ -58,6 +60,7 @@ async function link (fastify: FastifyInstance): Promise<void> {
     }
   })
 
+  // GET request to /link/:url, return information on the provided link
   fastify.get<{ Params: LinkParams }>('/:link', async (request) => {
     const linkData = await prisma.link.findUnique({
       where: {
@@ -67,9 +70,12 @@ async function link (fastify: FastifyInstance): Promise<void> {
         comment: true
       }
     })
+
     if (linkData === null) {
       throw new NotFound('link not found')
     }
+
+    // If the link has been disabled, obscure the original destination link
     if (linkData.status === LinkStatus.DISABLED) {
       linkData.destination = `https://${linkData.id}`
     }
