@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { BadRequest, InternalServerError, NotFound } from 'http-errors'
+import { BadRequest, InternalServerError, NotFound, Unauthorized } from 'http-errors'
 import { LinkStatus } from '@prisma/client'
 import { Static, Type } from '@sinclair/typebox'
 
@@ -7,6 +7,7 @@ import generators from '@/generators'
 import prisma from '@/config/prisma'
 import { makeLinkReport } from '@/config/reporting'
 import { urlRegEx } from '@/config/constants'
+import env from '@/config/env'
 
 interface LinkParams {
   link: string
@@ -24,7 +25,12 @@ export const GenerateOptions = Type.Object({
   owoify: Type.Boolean({ default: false })
 })
 
+export const DisableOptions = Type.Object({
+  comment: Type.Optional(Type.String())
+})
+
 export type GenerateOptionsType = Static<typeof GenerateOptions>
+export type DisableOptionsType = Static<typeof DisableOptions>
 
 async function link (fastify: FastifyInstance): Promise<void> {
   // POST request to /link, generate a new shortened link
@@ -60,7 +66,7 @@ async function link (fastify: FastifyInstance): Promise<void> {
     }
   })
 
-  // GET request to /link/:url, return information on the provided link
+  // GET request to /link/:link, return information on the provided link
   fastify.get<{ Params: LinkParams }>('/:link', async (request) => {
     const linkData = await prisma.link.findUnique({
       where: {
@@ -80,6 +86,44 @@ async function link (fastify: FastifyInstance): Promise<void> {
       linkData.destination = `https://${linkData.id}`
     }
     return linkData
+  })
+
+  // PATCH request to /link/:link, allows administrators to disable links
+  // This will probably be extended with more functionality in the future
+  fastify.patch<{ Params: LinkParams, Body: DisableOptionsType }>('/link/:link', {
+    schema: {
+      body: DisableOptions
+    }
+  }, async (request) => {
+    const { authorization } = request.headers
+    if (authorization !== `Bearer ${env.adminAuth.reveal()}`) {
+      throw new Unauthorized()
+    }
+
+    const updateData: Parameters<typeof prisma.link.update>[0] = {
+      where: {
+        id: request.params.link
+      },
+      data: {
+        // TODO: Allow re-enabling disabled links
+        status: LinkStatus.DISABLED
+      },
+      include: {
+        comment: true
+      }
+    }
+
+    if (request.body.comment !== void 0) {
+      const { comment } = request.body
+      updateData.data.comment = {
+        upsert: {
+          create: { text: comment },
+          update: { text: comment }
+        }
+      }
+    }
+
+    return await prisma.link.update(updateData)
   })
 }
 
