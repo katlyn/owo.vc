@@ -6,7 +6,7 @@ import { Static, Type } from '@sinclair/typebox'
 import generators from '@/generators'
 import prisma from '@/config/prisma'
 import { makeLinkReport } from '@/config/reporting'
-import { urlRegEx } from '@/config/constants'
+import { urlRegEx } from '@/util/constants'
 import env from '@/config/env'
 
 interface LinkParams {
