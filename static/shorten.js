@@ -1,4 +1,5 @@
 const linkInput = document.getElementById('input')
+const linkCopy = document.getElementById('input-copy-btn')
 const linkSubmit = document.getElementById('submit')
 
 const generator = document.getElementById('generator')
@@ -19,6 +20,12 @@ linkInput.addEventListener('paste', ev => {
 
 linkSubmit.addEventListener('click', ev => {
   shortenLink(linkInput.value)
+})
+
+linkCopy.addEventListener('click', ev => {
+  linkInput.select()
+  // deprecated but it's supported by every browser and the only reliable way
+  document.execCommand('copy')
 })
 
 generator.addEventListener('input', () => {

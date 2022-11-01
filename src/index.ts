@@ -267,6 +267,7 @@ app.use(async (req, res) => {
   res.status(404).send('404 Not Found u-u')
 })
 
-app.listen(80).on('close', async () => {
+const port = Number.isNaN(process.env.PORT) ? 80 : Number(process.env.PORT);
+app.listen(port).on('close', async () => {
   await prisma.$disconnect()
 })
