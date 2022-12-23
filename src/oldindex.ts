@@ -10,7 +10,7 @@ import { join } from 'path'
 
 import env from './config/env'
 
-import owoify from './owoifier'
+import { owoifyString } from './util/owoifier'
 
 import { gay } from './generators/gay'
 import { owo } from './generators/owo'
@@ -248,10 +248,10 @@ app.use(async (req, res) => {
             const tag = el.attribs?.property ?? el.attribs?.name
             if (owodTags.includes(tag)) {
               if (el.attribs.content !== void 0) {
-                el.attribs.content = owoify(el.attribs.content)
+                el.attribs.content = owoifyString(el.attribs.content)
               }
               if (el.attribs.value !== void 0) {
-                el.attribs.value = owoify(el.attribs.value)
+                el.attribs.value = owoifyString(el.attribs.value)
               }
             }
           }
