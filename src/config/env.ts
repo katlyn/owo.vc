@@ -1,10 +1,11 @@
-import { secret, strictVerify } from 'env-verifier'
+import { secret, strictVerify, transform } from "env-verifier"
 
 const config = {
-  domain: 'DOMAIN',
-  database: secret('DATABASE_URL'),
-  adminAuth: secret('ADMIN_AUTH'),
-  reportingUrl: 'REPORTING_URL'
+  domain: "DOMAIN",
+  database: secret("DATABASE_URL"),
+  adminAuth: secret("ADMIN_AUTH"),
+  reportingUrl: "REPORTING_URL",
+  port: transform("PORT", Number)
 }
 
 const env = strictVerify<typeof config>(config)

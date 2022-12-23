@@ -1,7 +1,7 @@
-import { owo } from './owo'
-import { gay } from './gay'
-import { sketchy } from './sketchy'
-import { zws } from './zws'
+import { gay } from "./gay"
+import { owo } from "./owo"
+import { sketchy } from "./sketchy"
+import { zws } from "./zws"
 
 const generators = {
   gay,
