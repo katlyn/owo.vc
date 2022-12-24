@@ -32,7 +32,7 @@ export const DisableOptions = Type.Object({
 export type GenerateOptionsType = Static<typeof GenerateOptions>
 export type DisableOptionsType = Static<typeof DisableOptions>
 
-function link (fastify: FastifyInstance): void {
+async function link (fastify: FastifyInstance): Promise<void> {
   // POST request to /link, generate a new shortened link
   fastify.post<{ Body: GenerateOptionsType }>("/", {
     schema: {

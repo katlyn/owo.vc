@@ -6,7 +6,7 @@ import prisma from "@/config/prisma"
 import api from "./api"
 
 async function routes (fastify: FastifyInstance): Promise<void> {
-  await fastify.register(api, { prefix: "/api" })
+  void fastify.register(api, { prefix: "/api" })
 
   fastify.get("*", async (request, reply) => {
     const url = `${request.hostname}${request.url}`
