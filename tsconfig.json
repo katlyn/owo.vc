@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "es2016",
+    "target": "ES2022",
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
@@ -16,7 +16,11 @@
       "@/*": ["src/*"]
     },
     "strictNullChecks": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": [
+      "es2020",
+      "ESNext"
+    ]
   },
   "include": [
     "src/**/*"
