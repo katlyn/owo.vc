@@ -30,6 +30,7 @@
     "migrate": "prisma migrate deploy"
   },
   "dependencies": {
+    "@fastify/cors": "^8.2.0",
     "@fastify/type-provider-typebox": "^2.3.0",
     "@prisma/client": "^3.14.0",
     "@sinclair/typebox": "^0.24.46",
