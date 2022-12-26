@@ -1,4 +1,4 @@
-FROM node:19-alpine
+FROM node:19
 
 WORKDIR /usr/owo-vc
 
@@ -9,7 +9,6 @@ COPY package.json package-lock.json ./
 
 RUN npm ci && npx prisma generate
 
-COPY static static
 COPY src src
 COPY ./tsconfig.json ./
 
