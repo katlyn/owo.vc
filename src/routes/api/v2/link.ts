@@ -1,13 +1,13 @@
 import { LinkStatus } from "@prisma/client"
 import { Static, Type } from "@sinclair/typebox"
 import { FastifyInstance } from "fastify"
-import { BadRequest, InternalServerError, NotFound, Unauthorized } from "http-errors"
+import { NotFound, Unauthorized } from "http-errors"
 
 import env from "@/config/env"
 import prisma from "@/config/prisma"
 import { makeLinkReport } from "@/config/reporting"
-import generators from "@/generators"
 import { urlRegEx } from "@/util/constants"
+import shorten from "@/util/shorten"
 
 interface LinkParams {
   link: string
@@ -40,30 +40,12 @@ async function link (fastify: FastifyInstance): Promise<void> {
     }
   }, async request => {
     const options = request.body
+    const dbResponse = await shorten(options)
 
-    const url = new URL(options.link)
-    if ([ "owo.vc", "owo.gay", "0x6f776f2e7663.net" ].find(d => url.hostname.includes(d)) !== void 0) {
-      throw new BadRequest("Refusing to recursively shorten link")
-    }
+    // Report the link creation, discard any errors
+    void makeLinkReport(dbResponse, request.headers["user-agent"])
 
-    const id = generators[options.generator]()
-
-    try {
-      const dbResponse = await prisma.link.create({
-        data: {
-          id,
-          destination: options.link,
-          preventScrape: options.preventScrape,
-          owoify: options.owoify
-        }
-      })
-      // Report the link creation, discard any errors
-      void makeLinkReport(dbResponse, request.headers["user-agent"])
-      return dbResponse
-    } catch (e) {
-      console.error(e)
-      throw new InternalServerError("Unable to complete the request.")
-    }
+    return dbResponse
   })
 
   // GET request to /link/:link, return information on the provided link
