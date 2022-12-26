@@ -73,6 +73,13 @@ body {
   max-width: 50rem;
   display: flex;
   gap: 0.5em;
+  flex-direction: row;
+}
+
+@media screen and (max-width: 800px) {
+  .link-form {
+    flex-direction: column;
+  }
 }
 
 hr {
@@ -105,7 +112,8 @@ input {
   outline: none;
 }
 
-button, select {
+button, select, #input-wrapper {
+  text-align: center;
   font-size: 1rem;
   padding: 0.5rem;
   background: var(--darker);
@@ -121,11 +129,33 @@ button, select {
   cursor: pointer;
 }
 
-input:hover, button:hover, select:hover {
+#input-wrapper {
+  padding: 0;
+  flex-grow: 1;
+  cursor: unset;
+  display: flex;
+  align-items: center;
+}
+
+#input-wrapper * {
+  background: unset;
+  border: unset;
+  height: 100%;
+}
+
+#input-wrapper svg {
+  transform: scale(1.2);
+}
+
+#input-wrapper button:hover {
+  color: var(--secondary);
+}
+
+input:hover, button:hover, select:hover, #input-wrapper:hover {
   border-bottom-color: var(--secondary);
 }
 
-input:focus, button:focus, select:focus {
+input:focus, button:focus, select:focus, #input-wrapper:focus-within {
   border-bottom-color: var(--accent);
 }
 
