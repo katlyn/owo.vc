@@ -19,8 +19,6 @@ const server = build({
   logger: envToLogger[env.nodeEnv] ?? true
 })
 
-const port = isNaN(env.port) ? 80 : env.port
-
 server.listen({
   host: "0.0.0.0",
   port: env.port
