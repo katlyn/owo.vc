@@ -2,7 +2,7 @@ import env from "@/config/env"
 
 import build from "./server"
 
-const envToLogger: Record<string, boolean|object> = {
+const envToLogger: Record<string, boolean | object> = {
   development: {
     transport: {
       target: "pino-pretty",
@@ -20,7 +20,11 @@ const server = build({
 })
 
 const port = isNaN(env.port) ? 80 : env.port
-server.listen(port, "0.0.0.0", (err, address) => {
+
+server.listen({
+  host: "0.0.0.0",
+  port: env.port
+}, (err, address) => {
   if (err !== null) {
     server.log.error(err)
     process.exit(1)
