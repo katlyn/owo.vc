@@ -20,7 +20,7 @@
       <option value="sketchy">sketchy</option>
     </select>
     <div id="input-wrapper">
-      <button type="button" id="input-copy-btn" aria-abel="Copy">
+      <button type="button" id="input-copy-btn" aria-label="Copy">
         <svg role="img" aria-hidden="true" viewBox="0 0 40 40">
             <path fill="currentColor"
               d="M 7.5 36.625 C 6.832031 36.625 6.25 36.375 5.75 35.875 C 5.25 35.375 5 34.792969 5 34.125 L 5 9 L 7.5 9 L 7.5 34.125 L 27.25 34.125 L 27.25 36.625 Z M 12.5 31.625 C 11.832031 31.625 11.25 31.375 10.75 30.875 C 10.25 30.375 10 29.792969 10 29.125 L 10 5.792969 C 10 5.125 10.25 4.542969 10.75 4.042969 C 11.25 3.542969 11.832031 3.292969 12.5 3.292969 L 30.832031 3.292969 C 31.5 3.292969 32.082031 3.542969 32.582031 4.042969 C 33.082031 4.542969 33.332031 5.125 33.332031 5.792969 L 33.332031 29.125 C 33.332031 29.792969 33.082031 30.375 32.582031 30.875 C 32.082031 31.375 31.5 31.625 30.832031 31.625 Z M 12.5 29.125 L 30.832031 29.125 L 30.832031 5.792969 L 12.5 5.792969 Z M 12.5 29.125 L 12.5 5.792969 Z M 12.5 29.125 " />
@@ -39,7 +39,7 @@
   <hr>
   <p>
     Have an owo.vc link and want to get some information on it? Throw it in
-    here and we'll look it up for you.
+    here, and we'll look it up for you.
   </p>
   <div class="link-form" style="margin-top: 0.5rem;">
     <input id="link" type="text" placeholder="owo.vc link to get info on...">
@@ -47,11 +47,13 @@
   </div>
   <table id="info-results" style="display: none">
     <thead>
+    <tr>
       <th>Link</th>
       <th>Destination</th>
       <th>Features</th>
       <th># Clicks</th>
       <th># Scrapes</th>
+    </tr>
     </thead>
     <tbody id="info-results-body"></tbody>
   </table>
@@ -59,9 +61,7 @@
     <p>
       Created by <a href="https://github.com/katlyn/">katlyn</a>.
       <br>
-      API docs for programmatic usage can found <a href="api.html">here</a>. If
-      you have a legacy sketchy link, make it unsketchy
-      <a href="sketch.html">here</a>.
+      API docs for programmatic usage can found <a href="api.html">here</a>.
     </p>
   </div>
   <script src="shorten.js"></script>
