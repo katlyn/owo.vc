@@ -11,7 +11,7 @@ import shorten from "@/util/shorten"
 // Note: The disable API is not included in this implementation as it is not intended to be used by the public.
 
 interface LinkParams {
-    link: string
+  link: string
 }
 
 const GenerateOptions = Type.Object({
@@ -51,7 +51,6 @@ async function backcompat (fastify: FastifyInstance): Promise<void> {
 
   fastify.get<{ Params: LinkParams }>("/info/:link", async (request, reply) => {
     const encoded = encodeURIComponent(request.params.link)
-    console.log(request.params.link, encoded)
     return reply.redirect(301, `/api/v2/link/${encoded}`)
   })
 }
