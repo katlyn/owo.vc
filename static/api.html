@@ -19,7 +19,7 @@
       requested that you provide contact information in the
       <code>User-Agent</code> header, but not required.
     </p>
-    <h3>POST <code>/generate</code></h3>
+    <h3>POST <code>/api/v2/link</code></h3>
     <p>
       Generates a new link. Requires a JSON body with the following structure.
     </p>
@@ -46,7 +46,7 @@
       <code>owoify</code> determines if metadata will be owoified. Has no effect
       if metadata scraping is blocked.
     </p>
-    <h3>GET <code>/info/:link</code></h3>
+    <h3>GET <code>/api/v2/link/:link</code></h3>
     <p>
       Return current information on the given owo.vc link. Link
       <strong>must</strong> be encoded as a URI component.
