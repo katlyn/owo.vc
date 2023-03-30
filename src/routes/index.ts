@@ -1,7 +1,7 @@
 import { fastifyStatic } from "@fastify/static"
 import { LinkStatus, Prisma } from "@prisma/client"
 import { FastifyInstance } from "fastify"
-import { Gone, InternalServerError, NotFound } from "http-errors"
+import { Gone, InternalServerError, isHttpError, NotFound } from "http-errors"
 import isBot from "isbot"
 import * as path from "path"
 
@@ -46,7 +46,7 @@ async function routes (fastify: FastifyInstance): Promise<void> {
       if (linkData.status === LinkStatus.DISABLED) {
         let reply = "This link is no longer available."
         if (linkData.comment !== null) {
-          reply += `\nOperator comments: ${linkData.comment.text}`
+          reply += ` Operator comments: ${linkData.comment.text}`
         }
         throw new Gone(reply)
       }
@@ -61,7 +61,9 @@ async function routes (fastify: FastifyInstance): Promise<void> {
 
       void reply.redirect(linkData.destination)
     } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (isHttpError(e)) {
+        throw e
+      } else if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === "P2025") {
           throw new NotFound("Link not found")
         } else {

@@ -72,15 +72,17 @@ async function link (fastify: FastifyInstance): Promise<void> {
 
   // PATCH request to /link/:link, allows administrators to disable links
   // This will probably be extended with more functionality in the future
-  fastify.patch<{ Params: LinkParams, Body: DisableOptionsType }>("/link/:link", {
+  fastify.patch<{ Params: LinkParams, Body: DisableOptionsType }>("/:link", {
+    preParsing: async request => {
+      const { authorization } = request.headers
+      if (authorization !== `Bearer ${env.adminAuth.reveal()}`) {
+        throw new Unauthorized()
+      }
+    },
     schema: {
       body: DisableOptions
     }
   }, async request => {
-    const { authorization } = request.headers
-    if (authorization !== `Bearer ${env.adminAuth.reveal()}`) {
-      throw new Unauthorized()
-    }
 
     const updateData: Parameters<typeof prisma.link.update>[0] = {
       where: {
