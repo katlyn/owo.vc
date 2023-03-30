@@ -1,7 +1,6 @@
-import { createClient } from "redis"
+import Redis from "ioredis"
 
 import env from "@/config/env"
 
-const client = createClient({ url: env.redis })
-
+const client = new Redis(env.redis)
 export default client

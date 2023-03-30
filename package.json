@@ -50,7 +50,7 @@
     "express": "^4.18.2",
     "fastify": "^4.15.0",
     "http-errors": "^2.0.0",
-    "isbot": "^3.6.7",
-    "redis": "^4.6.5"
+    "ioredis": "^5.3.1",
+    "isbot": "^3.6.7"
   }
 }
