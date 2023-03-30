@@ -1,6 +1,7 @@
 import cheerio from "cheerio"
 
 import env from "@/config/env"
+import redis from "@/config/redis"
 
 export const owos = [
   "owo", "Owo", "OwO", "owO",
@@ -23,7 +24,14 @@ export function owoifyString (s: string): string {
  * Scrapes the given url and returns the owoified page metadata.
  * @param url
  */
-export async function owoifyMetadata (url: string): Promise<string|null> {
+export async function owoifyMetadata (url: string): Promise<string | null> {
+  // Check if the metadata is cached
+  const cached = await redis.get(`metacache:${url}`)
+  if (cached != null) {
+    return cached
+  }
+
+  // Fetch and owoify the metadata
   const page = await fetch(url, {
     headers: {
       "User-Agent": `OWObot (https://${env.domain})`
@@ -60,7 +68,12 @@ export async function owoifyMetadata (url: string): Promise<string|null> {
       }
     }
 
-    return `<html><head>${cheerio.html(metaTags)}</head><body></body></html>`
+    const result = `<html><head>${cheerio.html(metaTags)}</head><body></body></html>`
+
+    // Cache the result for future use
+    await redis.set(`metacache:${url}`, result, { EX: 10 * 60 }) // Expire after ten minutes
+
+    return result
   }
   return null
 }
