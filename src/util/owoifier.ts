@@ -71,7 +71,7 @@ export async function owoifyMetadata (url: string): Promise<string | null> {
     const result = `<html><head>${cheerio.html(metaTags)}</head><body></body></html>`
 
     // Cache the result for future use
-    await redis.set(`metacache:${url}`, result, { EX: 10 * 60 }) // Expire after ten minutes
+    await redis.set(`metacache:${url}`, result, "EX", 10 * 60) // Expire after ten minutes
 
     return result
   }
