@@ -22,7 +22,9 @@ async function routes (fastify: FastifyInstance): Promise<void> {
   })
 
   fastify.get("*", async (request, reply): Promise<void | string> => {
-    const url = `${request.hostname}${request.url}`
+    // We need to manually decode this as fastify only decodes path parameters automatically
+    const decodedPath = decodeURIComponent(request.url)
+    const url = `${request.hostname}${decodedPath}`
     const bot = isBot(request.headers["user-agent"])
 
     try {
