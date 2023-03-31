@@ -26,7 +26,11 @@ export const GenerateOptions = Type.Object({
 })
 
 export const DisableOptions = Type.Object({
-  comment: Type.Optional(Type.String())
+  status: Type.Optional(Type.Union([
+    Type.Literal("ACTIVE"),
+    Type.Literal("DISABLED")
+  ])),
+  comment: Type.Optional(Type.Union([ Type.Null(), Type.String() ]))
 })
 
 export type GenerateOptionsType = Static<typeof GenerateOptions>
@@ -89,15 +93,16 @@ async function link (fastify: FastifyInstance): Promise<void> {
         id: request.params.link
       },
       data: {
-        // TODO: Allow re-enabling disabled links
-        status: LinkStatus.DISABLED
+        status: request.body.status
       },
       include: {
         comment: true
       }
     }
 
-    if (request.body.comment !== void 0) {
+    if (request.body.comment === null) {
+      updateData.data.comment = { delete: true }
+    } else if (request.body.comment !== void 0) {
       const { comment } = request.body
       updateData.data.comment = {
         upsert: {
@@ -107,7 +112,7 @@ async function link (fastify: FastifyInstance): Promise<void> {
       }
     }
 
-    return await prisma.link.update(updateData)
+    return prisma.link.update(updateData)
   })
 }
 
