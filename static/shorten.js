@@ -33,10 +33,10 @@ linkCopy.addEventListener("click", () => {
 generator.addEventListener("input", () => {
   // Don't owoify by default if the user changes to gay links
   const defaults = {
-    owo: "owoify",
-    gay: "proxy",
-    zws: "proxy",
-    sketchy: "proxy"
+    owo: "OWOIFY",
+    gay: "PROXY",
+    zws: "PROXY",
+    sketchy: "PROXY"
   }
   metadataHandling.value = defaults[generator.value]
 })
@@ -59,8 +59,7 @@ const shortenLink = async link => {
       body: JSON.stringify({
         link,
         generator: generator.value,
-        preventScrape: metadataHandling.value === "ignore",
-        owoify: metadataHandling.value === "owoify"
+        metadata: metadataHandling.value
       })
     })
     const linkData = await response.json()

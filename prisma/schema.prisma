@@ -10,6 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum MetadataHandling {
+  OWOIFY
+  PROXY
+  IGNORE
+}
+
 enum ShortenMethods {
   OWO_VC
   ZWS
@@ -19,17 +25,18 @@ enum ShortenMethods {
 }
 
 model Link {
-  id            String         @id
+  id            String           @id
   destination   String
-  method        ShortenMethods @default(NONE)
-  preventScrape Boolean        @default(false)
-  owoify        Boolean        @default(false)
-  visits        Int            @default(0)
-  scrapes       Int            @default(0)
-  createdAt     DateTime       @default(now())
-  status        LinkStatus     @default(ACTIVE)
-  comment       LinkComments?  @relation(fields: [commentId], references: [id])
-  commentId     String?        @unique
+  method        ShortenMethods   @default(NONE)
+  metadata      MetadataHandling @default(IGNORE)
+  preventScrape Boolean          @default(false)
+  owoify        Boolean          @default(false)
+  visits        Int              @default(0)
+  scrapes       Int              @default(0)
+  createdAt     DateTime         @default(now())
+  status        LinkStatus       @default(ACTIVE)
+  comment       LinkComments?    @relation(fields: [commentId], references: [id])
+  commentId     String?          @unique
 }
 
 model LinkComments {

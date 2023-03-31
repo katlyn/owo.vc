@@ -1,4 +1,5 @@
 import cors from "@fastify/cors"
+import { MetadataHandling } from "@prisma/client"
 import { Static, Type } from "@sinclair/typebox"
 import { FastifyInstance } from "fastify"
 
@@ -38,7 +39,10 @@ async function backcompat (fastify: FastifyInstance): Promise<void> {
   }, async request => {
 
     const options = request.body
-    const dbResponse = await shorten(options)
+    const dbResponse = await shorten({
+      ...options,
+      metadata: options.preventScrape ? MetadataHandling.IGNORE : options.owoify ? MetadataHandling.OWOIFY : MetadataHandling.PROXY
+    })
 
     // Report the link creation, discard any errors
     void makeLinkReport(dbResponse, request.headers["user-agent"])

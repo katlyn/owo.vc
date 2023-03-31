@@ -1,5 +1,5 @@
 import { fastifyStatic } from "@fastify/static"
-import { LinkStatus, Prisma } from "@prisma/client"
+import { LinkStatus, MetadataHandling, Prisma } from "@prisma/client"
 import { FastifyInstance } from "fastify"
 import { Gone, InternalServerError, isHttpError, NotFound } from "http-errors"
 import isBot from "isbot"
@@ -51,11 +51,20 @@ async function routes (fastify: FastifyInstance): Promise<void> {
         throw new Gone(reply)
       }
 
-      if (bot && linkData.owoify) {
-        const owoified = await owoifyMetadata(linkData.destination)
-        if (owoified != null) {
-          reply.type("text/html")
-          return owoified
+      if (bot) {
+        switch (linkData.metadata) {
+          case MetadataHandling.OWOIFY: {
+            const owoified = await owoifyMetadata(linkData.destination)
+            if (owoified != null) {
+              reply.type("text/html")
+              return owoified
+            }
+            break
+          }
+          case MetadataHandling.IGNORE: {
+            reply.status(204)
+            return
+          }
         }
       }
 

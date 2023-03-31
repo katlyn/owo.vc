@@ -29,8 +29,8 @@ export async function makeLinkReport (link: Link, useragent?: string): ReturnTyp
           name: "Destination",
           value: link.destination
         }, {
-          name: "Features",
-          value: `${link.owoify ? "owoify" : ""} ${link.preventScrape ? "preventScrape" : ""}`.trim()
+          name: "Metadata",
+          value: link.metadata
         } ],
         footer: {
           text: useragent ?? "No useragent"

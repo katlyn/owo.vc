@@ -45,8 +45,7 @@ const shorten = async (options: GenerateOptionsType) => {
         id,
         destination: options.link,
         method: methodToEnum[options.generator],
-        preventScrape: options.preventScrape,
-        owoify: options.owoify
+        metadata: options.metadata
       }
     })
   } catch (e) {

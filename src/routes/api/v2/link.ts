@@ -21,8 +21,13 @@ export const GenerateOptions = Type.Object({
     Type.Literal("zws"),
     Type.Literal("sketchy")
   ]),
-  preventScrape: Type.Boolean({ default: false }),
-  owoify: Type.Boolean({ default: false })
+  metadata: Type.Union([
+    Type.Literal("OWOIFY"),
+    Type.Literal("PROXY"),
+    Type.Literal("IGNORE")
+  ], {
+    default: Type.Literal("OWOIFY")
+  })
 })
 
 export const DisableOptions = Type.Object({
