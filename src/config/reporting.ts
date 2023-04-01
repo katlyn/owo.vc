@@ -5,7 +5,8 @@ import env from "@/config/env"
 async function makeReportingRequest (body: object): Promise<boolean> {
   const req = await fetch(env.reportingUrl, {
     method: "POST",
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    headers: { "Content-Type": "application/json" },
   })
 
   if (!req.ok) {
@@ -17,26 +18,26 @@ async function makeReportingRequest (body: object): Promise<boolean> {
 
 export async function makeLinkReport (link: Link, useragent?: string): ReturnType<typeof makeReportingRequest> {
   return await makeReportingRequest({
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      embeds: [ {
+    embeds: [
+      {
         timestamp: link.createdAt.toISOString(),
-        fields: [ {
-          name: "ID",
-          value: link.id
-        }, {
-          name: "Destination",
-          value: link.destination
-        }, {
-          name: "Metadata",
-          value: link.metadata
-        } ],
+        fields: [
+          {
+            name: "ID",
+            value: link.id
+          }, {
+            name: "Destination",
+            value: link.destination
+          }, {
+            name: "Metadata",
+            value: link.metadata
+          }
+        ],
         footer: {
           text: useragent ?? "No useragent"
         }
-      } ]
-    })
+      }
+    ]
   })
 }
 
