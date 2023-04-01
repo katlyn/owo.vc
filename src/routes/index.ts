@@ -18,7 +18,8 @@ async function routes (fastify: FastifyInstance): Promise<void> {
   // Handle static files
   void fastify.register(fastifyStatic, {
     root: path.join(__dirname, "../../static"),
-    wildcard: false
+    wildcard: false,
+    constraints: { host: "owo.vc" }
   })
 
   fastify.get("*", async (request, reply): Promise<void | string> => {

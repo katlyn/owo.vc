@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js --ext .ts src static",
     "start": "node --enable-source-maps dist/index.js",
     "start:dev": "concurrently npm:build:watch npm:start:watch",
-    "start:watch": "dotenv -- node-dev --respawn dist/index.js",
+    "start:watch": "dotenv -- node-dev --enable-source-maps --respawn dist/index.js",
     "migrate": "prisma migrate deploy"
   },
   "devDependencies": {
@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^8.2.1",
-    "@fastify/static": "^6.9.0",
+    "@fastify/static": "github:katlyn/fastify-static#feat/constraints",
     "@fastify/type-provider-typebox": "^2.4.0",
     "@prisma/client": "^4.11.0",
     "@sinclair/typebox": "^0.25.9",
