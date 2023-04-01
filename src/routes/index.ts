@@ -23,6 +23,10 @@ async function routes (fastify: FastifyInstance): Promise<void> {
     constraints: { host: env.domain }
   })
 
+  fastify.get("/robots.txt", (request, reply) => {
+    reply.sendFile("robots.txt")
+  })
+
   fastify.get("*", async (request, reply): Promise<void | string> => {
     // We need to manually decode this as fastify only decodes path parameters automatically
     const decodedPath = decodeURIComponent(request.url)
