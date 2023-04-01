@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>owo.vc API</title>
+</head>
+
+<body>
+<h1 id="header"><a href="/">owo</a></h1>
+<h2 id="subtitle">Changelog</h2>
+<div class="documentation">
+  <h3 id="2023-04-01">2023-04-01</h3>
+  <p>
+    owo.vc's backend has been rewritten from scratch, making the API more RESTful as well as cleaning up the codebase
+    considerably. Old API endpoints are still available for backwards compatibility, however they are now deprecated,
+    and it is planned to remove them at a future date. A minimum of four months will be given before removal for the
+    migration of any existing clients relying on these endpoints.
+  </p>
+  <p>Notable changes in this release are as follows:</p>
+  <ul>
+    <li>
+      API operations have been moved to routes under `/api/v2/`.
+    </li>
+    <li>
+      Duplicate links shortened using the same method and metadata handling in a short period of time will have the same
+      shortened link returned to them. Previously, a new link was generated even if requests were duplicated.
+    </li>
+    <li>
+      <code>owoify</code> and <code>proxyMetadata</code> have been removed as properties when shortening a link, and
+      have been replaced with the <code>metadata</code> key. See the API documentation for more information.
+    </li>
+    <li>
+      Owoified metadata is now cached for a period of time. If the metadata on the destination page is updated for a
+      link with owoification enabled, changes will not be immediately reflected in the owoified metadata.
+    </li>
+  </ul>
+</div>
+<div id="footer">
+  <p>
+    Created by <a href="https://katlyn.dev/">katlyn</a> with source code on <a href="https://github.com/katlyn/owo.vc">GitHub</a>.
+    <br>
+    View the <a href="/api.html">API documentation</a> and <a href="/changelog.html">changelog</a>.
+  </p>
+</div>
+<!-- Cloudflare Web Analytics -->
+<script
+    defer
+    src='https://static.cloudflareinsights.com/beacon.min.js'
+    data-cf-beacon='{"token": "1cafaee6f1ee4407b3c2f8266fddfb23"}'
+></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
+
+</html>
