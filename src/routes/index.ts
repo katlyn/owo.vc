@@ -5,6 +5,7 @@ import { Gone, InternalServerError, isHttpError, NotFound } from "http-errors"
 import isBot from "isbot"
 import * as path from "path"
 
+import env from "@/config/env"
 import prisma from "@/config/prisma"
 import backcompat from "@/routes/backcompat"
 import { owoifyMetadata } from "@/util/owoifier"
@@ -19,7 +20,7 @@ async function routes (fastify: FastifyInstance): Promise<void> {
   void fastify.register(fastifyStatic, {
     root: path.join(__dirname, "../../static"),
     wildcard: false,
-    constraints: { host: "owo.vc" }
+    constraints: { host: env.domain }
   })
 
   fastify.get("*", async (request, reply): Promise<void | string> => {
