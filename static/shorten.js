@@ -120,8 +120,7 @@ const getInfo = async link => {
       <td>${linkInfo.id}</td>
       <td>${linkInfo.destination}</td>
       <td>
-        ${linkInfo.preventScrape ? "Prevent Scrape" : ""}
-        ${linkInfo.owoify ? "Owoify" : ""}
+        ${linkInfo.metadata}
       </td>
       <td>${linkInfo.visits}</td>
       <td>${linkInfo.scrapes}</td>
