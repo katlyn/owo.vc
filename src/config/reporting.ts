@@ -16,7 +16,7 @@ async function makeReportingRequest (body: object): Promise<boolean> {
   return req.ok
 }
 
-export async function makeLinkReport (link: Link, useragent?: string): ReturnType<typeof makeReportingRequest> {
+export async function makeLinkReport (link: Link, useragent?: string, route = "v2"): ReturnType<typeof makeReportingRequest> {
   return await makeReportingRequest({
     embeds: [
       {
@@ -30,7 +30,12 @@ export async function makeLinkReport (link: Link, useragent?: string): ReturnTyp
             value: link.destination
           }, {
             name: "Metadata",
-            value: link.metadata
+            value: link.metadata,
+            inline: true
+          }, {
+            name: "API Version",
+            value: route,
+            inline: true
           }
         ],
         footer: {

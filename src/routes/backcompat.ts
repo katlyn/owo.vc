@@ -45,7 +45,7 @@ async function backcompat (fastify: FastifyInstance): Promise<void> {
     })
 
     // Report the link creation, discard any errors
-    void makeLinkReport(dbResponse, request.headers["user-agent"])
+    void makeLinkReport(dbResponse, request.headers["user-agent"], "backcompat")
 
     return {
       ...dbResponse,
