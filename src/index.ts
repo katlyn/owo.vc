@@ -1,4 +1,6 @@
 import env from "@/config/env"
+import prisma from "@/config/prisma"
+import redis from "@/config/redis"
 
 import build from "./server"
 
@@ -29,3 +31,20 @@ server.listen({
   }
   server.log.info(`Listening on ${address}`)
 })
+
+let isShuttingDown = false
+
+async function shutdown () {
+  if (isShuttingDown) {
+    console.log("Exiting forcefully")
+    process.exit(1)
+  }
+  console.log("Shutting down...")
+  isShuttingDown = true
+
+  server.close()
+  await Promise.all([ prisma.$disconnect(), redis.quit() ])
+}
+
+process.on("SIGINT", shutdown)
+process.on("SIGTERM", shutdown)
