@@ -1,5 +1,6 @@
 {
   "name": "owo.vc",
+  "version": "2.0.0",
   "author": "katlyn",
   "scripts": {
     "clean": "rimraf dist",
