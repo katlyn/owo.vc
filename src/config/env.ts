@@ -3,7 +3,7 @@ import { secret, strictVerify, transform } from "env-verifier"
 const defaults: Record<string, string> = {
   HTTP_PORT: "8080",
   HTTP_HOST: "0.0.0.0",
-  DOMAIN: "https://owo.vc",
+  DOMAIN: "owo.vc",
   NODE_ENV: "development"
 }
 
