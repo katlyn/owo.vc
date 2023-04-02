@@ -13,7 +13,7 @@ const config = {
   adminAuth: secret("ADMIN_AUTH"),
   reportingUrl: "REPORTING_URL",
   redis: "REDIS_URL",
-  port: transform("PORT", Number),
+  port: transform("HTTP_PORT", Number),
   nodeEnv: "NODE_ENV"
 }
 
