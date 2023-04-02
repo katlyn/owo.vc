@@ -15,5 +15,6 @@ COPY ./tsconfig.json ./
 
 RUN npm run build
 
-CMD ["npm", "run", "start"]
+ENTRYPOINT ["node", "/usr/owo-vc/dist/index.js"]
+CMD []
 
