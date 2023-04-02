@@ -10,62 +10,69 @@
 </head>
 
 <body>
-  <h1 id="header"><a href="/">owo</a></h1>
-  <h2 id="subtitle">API Docs</h2>
-  <div class="documentation">
-    <p>
-      The owo.vc API is allowed for programmatic use to anyone free of charge.
-      Abuse of the API can and will lead to access being revoked. It is
-      requested that you provide contact information in the
-      <code>User-Agent</code> header, but not required.
-    </p>
-    <h3>POST <code>/generate</code></h3>
-    <p>
-      Generates a new link. Requires a JSON body with the following structure.
-    </p>
-    <code class="block">{
-  "link": "https://gordhoard.org",
-  "generator": "owo",
-  "preventScrape": true,
-  "owoify": false
-}</code>
-    <p>
-      <code>link</code> is a valid HTTP/S scheme link that the user is to be
-      redirected to.
-    </p>
-    <p>
-      <code>generator</code> is the generator format to use. Currently
-      <code>owo</code>, <code>gay</code>, <code>zws</code>, and
-      <code>sketchy</code> are available.
-    </p>
-    <p>
-      <code>preventScrape</code> is a boolean that determines if metadata
-      scraping should be blocked.
-    </p>
-    <p>
-      <code>owoify</code> determines if metadata will be owoified. Has no effect
-      if metadata scraping is blocked.
-    </p>
-    <h3>GET <code>/info/:link</code></h3>
-    <p>
-      Return current information on the given owo.vc link. Link
-      <strong>must</strong> be encoded as a URI component.
-    </p>
-  </div>
-  <div id="footer">
-    <p>
-      Created by <a href="https://github.com/katlyn/">katlyn</a>.
-      <br>
-      API docs for programmatic usage can found <a href="/api.html">here</a>.
-    </p>
-  </div>
-  <!-- Cloudflare Web Analytics -->
-  <script
+<h1 id="header"><a href="/">owo</a></h1>
+<h2 id="subtitle">API Docs</h2>
+<div class="documentation">
+  <p>
+    The owo.vc API is allowed for programmatic use to anyone free of charge.
+    Abuse of the API can and will lead to access being revoked. It is
+    requested that you provide contact information in the
+    <code>User-Agent</code> header, but not required.
+  </p>
+  <h3>POST <code>/api/v2/link</code></h3>
+  <p>
+    Generates a new link. Requires a JSON body with the following structure.
+  </p>
+  <code class="block">{
+    "link": "https://gordhoard.org",
+    "generator": "owo",
+    "preventScrape": true,
+    "owoify": false
+    }</code>
+  <p>
+    <code>link</code> is a valid HTTP/S scheme link that the user is to be
+    redirected to.
+  </p>
+  <p>
+    <code>generator</code> is the generator format to use. Currently
+    <code>owo</code>, <code>gay</code>, <code>zws</code>, and
+    <code>sketchy</code> are available.
+  </p>
+  <p>
+    <code>preventScrape</code> is a boolean that determines if metadata
+    scraping should be blocked.
+  </p>
+  <p>
+    <code>owoify</code> determines if metadata will be owoified. Has no effect
+    if metadata scraping is blocked.
+  </p>
+  <h3>GET <code>/api/v2/link/:link</code></h3>
+  <p>
+    Return current information on the given owo.vc link. Link
+    <strong>must</strong> be encoded as a URI component.
+  </p>
+
+  <h2>Deprecated Endpoints</h2>
+  <p>
+    As of 2023-04-01, the <code>/generate</code> and <code>/info</code> endpoints are deprecated. These endpoints will
+    continue to funtion for the time being, but should not be relied on. They are likely to be removed at some point in
+    the future.
+  </p>
+</div>
+<div id="footer">
+  <p>
+    Created by <a href="https://katlyn.dev/">katlyn</a> with source code on <a href="https://github.com/katlyn/owo.vc">GitHub</a>.
+    <br>
+    View the <a href="/api.html">API documentation</a> and <a href="/changelog.html">changelog</a>.
+  </p>
+</div>
+<!-- Cloudflare Web Analytics -->
+<script
     defer
     src='https://static.cloudflareinsights.com/beacon.min.js'
     data-cf-beacon='{"token": "1cafaee6f1ee4407b3c2f8266fddfb23"}'
-  ></script>
-  <!-- End Cloudflare Web Analytics -->
+></script>
+<!-- End Cloudflare Web Analytics -->
 </body>
 
 </html>

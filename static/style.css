@@ -1,212 +1,214 @@
 @import url('https://fonts.googleapis.com/css?family=Inconsolata|Karla&display=swap');
 
 :root {
-  --background: #2F2F2E;
-  --darker: #1F1F1F;
-  --text: #c0c1c5;
-  --primary: #7494EA;
-  --secondary: #3EBAE8;
-  --accent: #47FF76;
-  --error: #E56E6E;
+    --background: #2F2F2E;
+    --darker: #1F1F1F;
+    --text: #c0c1c5;
+    --primary: #7494EA;
+    --secondary: #3EBAE8;
+    --accent: #47FF76;
+    --error: #E56E6E;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  font-family: 'Karla', sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: 'Karla', sans-serif;
 }
 
 ::selection {
-  background: var(--text);
+    background: var(--text);
 }
 
 body {
-  background-color: var(--background);
-  color: var(--text);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  text-align: center;
+    background-color: var(--background);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
 }
 
 #header {
-  font-size: 10rem;
-  color: var(--primary)
+    font-size: 10rem;
+    color: var(--primary)
 }
 
 #header a {
-  color: inherit;
-  text-decoration: inherit;
+    color: inherit;
+    text-decoration: inherit;
 }
 
 #subtitle {
-  margin-top: -1rem;
-  margin-bottom: 3rem;
-  font-weight: initial;
-  font-size: 1.25rem;
+    margin-top: -1rem;
+    margin-bottom: 3rem;
+    font-weight: initial;
+    font-size: 1.25rem;
 }
 
 #info-results {
-  margin-top: 1rem;
-  width: 75%;
-  max-width: 50rem;
+    margin-top: 1rem;
+    width: 75%;
+    max-width: 50rem;
 }
 
 #footer {
-  margin-top: 5rem;
-  flex-grow: 1;
-  display: flex;
-  align-items: flex-end;
-  padding: 2rem;
-  max-width: 50rem;
-  text-align: center;
+    margin-top: 5rem;
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: 2rem;
+    max-width: 50rem;
+    text-align: center;
 }
 
 #footer p {
-  text-align: center;
-  width: initial;
+    text-align: center;
+    width: initial;
 }
 
 .link-form {
-  width: 75%;
-  max-width: 50rem;
-  display: flex;
-  gap: 0.5em;
-  flex-direction: row;
+    width: 75%;
+    max-width: 50rem;
+    display: flex;
+    gap: 0.5em;
+    flex-direction: row;
 }
 
 @media screen and (max-width: 800px) {
-  .link-form {
-    flex-direction: column;
-  }
+    .link-form {
+        flex-direction: column;
+    }
 }
 
 hr {
-  margin-top: 1.25rem;
-  border: none;
-  height: 1px;
-  background-color: var(--darker);
-  width: 75%;
-  max-width: 50rem;
+    margin-top: 1.25rem;
+    border: none;
+    height: 1px;
+    background-color: var(--darker);
+    width: 75%;
+    max-width: 50rem;
 }
 
-p {
-  width: 75%;
-  max-width: 50rem;
-  line-height: 1.75em;
-  margin-top: 1.25em;
-  text-align: left;
+p, li {
+    line-height: 1.75em;
+    margin-top: 1.25em;
+    text-align: left;
 }
 
 input {
-  color: var(--text);
-  flex-grow: 1;
-  font-size: 1rem;
-  padding: 0.5rem;
-  background: var(--darker);
-  border-width: 0 0 2px 0;
-  border-radius: 0.25rem;
-  border-bottom-color: var(--primary);
-  transition: border-bottom-color 0.2s ease-in-out;
-  outline: none;
+    color: var(--text);
+    flex-grow: 1;
+    font-size: 1rem;
+    padding: 0.5rem;
+    background: var(--darker);
+    border-width: 0 0 2px 0;
+    border-radius: 0.25rem;
+    border-bottom-color: var(--primary);
+    transition: border-bottom-color 0.2s ease-in-out;
+    outline: none;
 }
 
 button, select, #input-wrapper {
-  text-align: center;
-  font-size: 1rem;
-  padding: 0.5rem;
-  background: var(--darker);
-  color: var(--text);
-  font-weight: bold;
-  border-width: 0 0 2px 0;
-  border-radius: 0.25rem;
-  border-bottom-color: var(--primary);
-  border-style: solid;
-  transition: border-bottom-color 0.2s ease-in-out;
-  outline: none;
-  line-break: none;
-  cursor: pointer;
+    text-align: center;
+    font-size: 1rem;
+    padding: 0.5rem;
+    background: var(--darker);
+    color: var(--text);
+    font-weight: bold;
+    border-width: 0 0 2px 0;
+    border-radius: 0.25rem;
+    border-bottom-color: var(--primary);
+    border-style: solid;
+    transition: border-bottom-color 0.2s ease-in-out;
+    outline: none;
+    line-break: none;
+    cursor: pointer;
 }
 
 #input-wrapper {
-  padding: 0;
-  flex-grow: 1;
-  cursor: unset;
-  display: flex;
-  align-items: center;
+    padding: 0;
+    flex-grow: 1;
+    cursor: unset;
+    display: flex;
+    align-items: center;
 }
 
 #input-wrapper * {
-  background: unset;
-  border: unset;
-  height: 100%;
+    background: unset;
+    border: unset;
+    height: 100%;
 }
 
 #input-wrapper svg {
-  transform: scale(1.2);
+    transform: scale(1.2);
 }
 
 #input-wrapper button:hover {
-  color: var(--secondary);
+    color: var(--secondary);
 }
 
 input:hover, button:hover, select:hover, #input-wrapper:hover {
-  border-bottom-color: var(--secondary);
+    border-bottom-color: var(--secondary);
 }
 
 input:focus, button:focus, select:focus, #input-wrapper:focus-within {
-  border-bottom-color: var(--accent);
+    border-bottom-color: var(--accent);
 }
 
 a:visited, a:active, a:hover {
-  color: var(--secondary);
+    color: var(--secondary);
 }
 
 a {
-  color: var(--primary);
-  transition: color 0.2s ease;
+    color: var(--primary);
+    transition: color 0.2s ease;
 }
 
-.error:focus, .error:hover, .error {
-  border-bottom-color: var(--error);
+.error:focus, .error:hover, .error, #input-wrapper.error {
+    border-bottom-color: var(--error);
 }
 
 input[type="checkbox"], label {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .documentation {
-  text-align: left;
-  margin: 1rem;
-  padding: 1rem 10%;
-  width: 50%;
+    text-align: left;
+    margin: 1rem;
+    padding: 1rem 10%;
+    width: 50%;
 }
 
 .documentation h3 {
-  margin-top: 1rem;
+    margin-top: 1rem;
 }
 
 code {
-  font-family: 'Inconsolata', monospace;
-  padding: 0.25rem;
-  background-color: var(--darker);
-  display: inline-block;
+    font-family: 'Inconsolata', monospace;
+    padding: 0.25rem;
+    background-color: var(--darker);
+    display: inline-block;
 }
 
 code.block {
-  display: block;
-  margin: initial;
-  padding: 0.5rem;
-  margin: 0.5rem;
-  white-space: pre;
+    display: block;
+    margin: initial;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    white-space: pre;
 }
 
 table {
-  border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 td, th {
-  border: 1px solid var(--text);
-  padding: 0.5em;
+    border: 1px solid var(--text);
+    padding: 0.5em;
+}
+
+li {
+    margin-left: 2rem;
 }
