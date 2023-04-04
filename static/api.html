@@ -39,13 +39,14 @@
     <code>sketchy</code> are available.
   </p>
   <p>
-    <code>preventScrape</code> is a boolean that determines if metadata
-    scraping should be blocked.
+    <code>metadata</code> is a string that determines how metadata for the shortened link should be handled. It can
+    have the follow values:
   </p>
-  <p>
-    <code>owoify</code> determines if metadata will be owoified. Has no effect
-    if metadata scraping is blocked.
-  </p>
+  <ul>
+    <li><code>IGNORE</code> - Don't return any metadata for the given link</li>
+    <li><code>OWOIFY</code> - Return an owoified version of the destination page's metadata</li>
+    <li><code>PROXY</code> - Return the original page's metadata, unmodified</li>
+  </ul>
   <h3>GET <code>/api/v2/link/:link</code></h3>
   <p>
     Return current information on the given owo.vc link. Link
