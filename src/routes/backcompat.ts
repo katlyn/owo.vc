@@ -1,8 +1,10 @@
 import cors from "@fastify/cors"
-import { MetadataHandling } from "@prisma/client"
+import { LinkStatus, MetadataHandling } from "@prisma/client"
 import { Static, Type } from "@sinclair/typebox"
 import { FastifyInstance } from "fastify"
+import { NotFound } from "http-errors"
 
+import prisma from "@/config/prisma"
 import { makeLinkReport } from "@/config/reporting"
 import { urlRegEx } from "@/util/constants"
 import shorten from "@/util/shorten"
@@ -49,13 +51,29 @@ async function backcompat (fastify: FastifyInstance): Promise<void> {
 
     return {
       ...dbResponse,
-      result: dbResponse.id
+      result: dbResponse.id,
+      owoify: dbResponse.metadata === MetadataHandling.OWOIFY,
+      preventScrape: dbResponse.metadata === MetadataHandling.IGNORE
     }
   })
 
   fastify.get<{ Params: LinkParams }>("/info/:link", async (request, reply) => {
-    const encoded = encodeURIComponent(request.params.link)
-    return reply.redirect(301, `/api/v2/link/${encoded}`)
+    const linkData = await prisma.link.findUnique({
+      where: {
+        id: request.params.link
+      }
+    })
+    if (linkData == null) {
+      throw new NotFound("link not found")
+    }
+    if (linkData.status === LinkStatus.DISABLED) {
+      linkData.destination = `https://${linkData.id}`
+    }
+    return {
+      ...linkData,
+      owoify: linkData.metadata === MetadataHandling.OWOIFY,
+      preventScrape: linkData.metadata === MetadataHandling.IGNORE
+    }
   })
 }
 
