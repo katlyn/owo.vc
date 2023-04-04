@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^8.2.1",
-    "@fastify/static": "github:katlyn/fastify-static#feat/constraints",
+    "@fastify/static": "^6.10.0",
     "@fastify/type-provider-typebox": "^2.4.0",
     "@prisma/client": "^4.11.0",
     "@sinclair/typebox": "^0.25.9",
