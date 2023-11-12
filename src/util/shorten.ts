@@ -18,6 +18,23 @@ const shorten = async (options: GenerateOptionsType) => {
     throw new BadRequest("Refusing to recursively shorten link")
   }
 
+  // Check to see if the destination domain is blocked
+  const domainParts = url.hostname.split(".").reduceRight((prev, current) => {
+    if (prev.length === 0) {
+      return [current]
+    }
+    return [...prev, `${current}.${prev[prev.length - 1]}`]
+  }, <string[]>[])
+  const blockedDomain = await prisma.blockedDomains.findFirst({
+    where: {
+      domain: { in: domainParts }
+    }
+  })
+  
+  if (blockedDomain !== null) {
+    throw new BadRequest(`The domain "${blockedDomain.domain}" has been blocked${blockedDomain.reason ? `: ${blockedDomain.reason}.` : "."}`)
+  }
+
   // Check to see if the link has been shortened recently or is disabled
   const existing = await prisma.link.findFirst({
     where: {
