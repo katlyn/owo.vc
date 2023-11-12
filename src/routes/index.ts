@@ -7,14 +7,12 @@ import * as path from "path"
 
 import env from "@/config/env"
 import prisma from "@/config/prisma"
-import backcompat from "@/routes/backcompat"
 import { owoifyMetadata } from "@/util/owoifier"
 
 import api from "./api"
 
 async function routes (fastify: FastifyInstance): Promise<void> {
   await fastify.register(api, { prefix: "/api" })
-  void fastify.register(backcompat)
 
   // Handle static files
   void fastify.register(fastifyStatic, {
