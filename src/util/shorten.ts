@@ -4,6 +4,7 @@ import { BadRequest, InternalServerError } from "http-errors"
 import prisma from "@/config/prisma"
 import generators from "@/generators"
 import { GenerateOptionsType } from "@/routes/api/v2/link"
+import { getDomainBlock } from "@/util/blockedDomains"
 
 const methodToEnum: Record<GenerateOptionsType["generator"], ShortenMethods> = {
   owo: ShortenMethods.OWO_VC,
@@ -18,21 +19,9 @@ const shorten = async (options: GenerateOptionsType) => {
     throw new BadRequest("Refusing to recursively shorten link")
   }
 
-  // Check to see if the destination domain is blocked
-  const domainParts = url.hostname.split(".").reduceRight((prev, current) => {
-    if (prev.length === 0) {
-      return [current]
-    }
-    return [...prev, `${current}.${prev[prev.length - 1]}`]
-  }, <string[]>[])
-  const blockedDomain = await prisma.blockedDomains.findFirst({
-    where: {
-      domain: { in: domainParts }
-    }
-  })
-  
-  if (blockedDomain !== null) {
-    throw new BadRequest(`The domain "${blockedDomain.domain}" has been blocked${blockedDomain.reason ? `: ${blockedDomain.reason}.` : "."}`)
+  const domainBlock = await getDomainBlock(url)
+  if (domainBlock !== null) {
+    throw new BadRequest(`The domain "${domainBlock.domain}" has been blocked${domainBlock.reason ? `: ${domainBlock.reason}.` : "."}`)
   }
 
   // Check to see if the link has been shortened recently or is disabled

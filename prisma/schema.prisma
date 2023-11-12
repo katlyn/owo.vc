@@ -43,7 +43,7 @@ model LinkComments {
   text String
 }
 
-model BlockedDomains {
+model BlockedDomain {
   domain String  @id
   reason String?
 }
