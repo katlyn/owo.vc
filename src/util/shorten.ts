@@ -1,9 +1,10 @@
-import { ShortenMethods } from "@prisma/client"
+import { LinkStatus, ShortenMethods } from "@prisma/client"
 import { BadRequest, InternalServerError } from "http-errors"
 
 import prisma from "@/config/prisma"
 import generators from "@/generators"
 import { GenerateOptionsType } from "@/routes/api/v2/link"
+import { getDomainBlock } from "@/util/blockedDomains"
 
 const methodToEnum: Record<GenerateOptionsType["generator"], ShortenMethods> = {
   owo: ShortenMethods.OWO_VC,
@@ -18,14 +19,28 @@ const shorten = async (options: GenerateOptionsType) => {
     throw new BadRequest("Refusing to recursively shorten link")
   }
 
-  // Check to see if the link has been shortened recently
+  const domainBlock = await getDomainBlock(url)
+  if (domainBlock !== null) {
+    throw new BadRequest(`The domain "${domainBlock.domain}" has been blocked${domainBlock.reason ? `: ${domainBlock.reason}.` : "."}`)
+  }
+
+  // Check to see if the link has been shortened recently or is disabled
   const existing = await prisma.link.findFirst({
     where: {
-      destination: options.link,
-      method: methodToEnum[options.generator],
-      createdAt: {
-        // Created in the last five minutes
-        gte: new Date(Date.now() - 5 * 60 * 1e3)
+      OR: [
+        {
+          createdAt: {
+            // Created in the last five minutes
+            gte: new Date(Date.now() - 5 * 60 * 1e3)
+          }
+        },
+        {
+          status: LinkStatus.DISABLED
+        }
+      ],
+      AND: {
+        destination: options.link,
+        method: methodToEnum[options.generator]
       }
     },
     orderBy: {

@@ -43,6 +43,11 @@ model LinkComments {
   text String
 }
 
+model BlockedDomain {
+  domain String  @id
+  reason String?
+}
+
 enum LinkStatus {
   ACTIVE
   DISABLED
