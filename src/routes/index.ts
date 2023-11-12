@@ -10,6 +10,7 @@ import prisma from "@/config/prisma"
 import { owoifyMetadata } from "@/util/owoifier"
 
 import api from "./api"
+import { getDomainBlock } from "@/util/blockedDomains"
 
 async function routes (fastify: FastifyInstance): Promise<void> {
   await fastify.register(api, { prefix: "/api" })
@@ -48,6 +49,11 @@ async function routes (fastify: FastifyInstance): Promise<void> {
           comment: true
         }
       })
+
+      const domainBlock = await getDomainBlock(new URL(linkData.destination))
+      if (domainBlock !== null) {
+        throw new Gone(`The domain "${domainBlock.domain}" has been blocked${domainBlock.reason ? `: ${domainBlock.reason}.` : "."}`)
+      }
 
       if (linkData.status === LinkStatus.DISABLED) {
         let reply = "This link is no longer available."
