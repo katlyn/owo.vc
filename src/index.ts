@@ -18,7 +18,8 @@ const envToLogger: Record<string, boolean | object> = {
 }
 
 const server = build({
-  logger: envToLogger[env.nodeEnv] ?? true
+  logger: envToLogger[env.nodeEnv] ?? true,
+  trustProxy: env.trustProxy
 })
 
 server.listen({
