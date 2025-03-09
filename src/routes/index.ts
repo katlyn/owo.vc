@@ -65,14 +65,14 @@ async function routes (fastify: FastifyInstance): Promise<void> {
 
       if (bot) {
         switch (linkData.metadata) {
-          case MetadataHandling.OWOIFY: {
-            const owoified = await owoifyMetadata(linkData.destination)
-            if (owoified != null) {
-              reply.type("text/html")
-              return owoified
-            }
-            break
-          }
+          // case MetadataHandling.OWOIFY: {
+          //   const owoified = await owoifyMetadata(linkData.destination)
+          //   if (owoified != null) {
+          //     reply.type("text/html")
+          //     return owoified
+          //   }
+          //   break
+          // }
           case MetadataHandling.IGNORE: {
             reply.status(204)
             return
