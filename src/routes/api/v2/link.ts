@@ -1,7 +1,7 @@
 import { LinkStatus } from "@prisma/client"
 import { Static, Type } from "@sinclair/typebox"
 import { FastifyInstance } from "fastify"
-import { NotFound, Unauthorized } from "http-errors"
+import { MethodNotAllowed, NotFound, Unauthorized } from "http-errors"
 
 import env from "@/config/env"
 import prisma from "@/config/prisma"
@@ -48,6 +48,8 @@ async function link (fastify: FastifyInstance): Promise<void> {
       body: GenerateOptions
     }
   }, async request => {
+    throw new MethodNotAllowed("Link generation has been disabled.")
+    /*
     const options = request.body
     const dbResponse = await shorten(options)
 
@@ -55,6 +57,7 @@ async function link (fastify: FastifyInstance): Promise<void> {
     void makeLinkReport(dbResponse, request.headers["user-agent"])
 
     return dbResponse
+    */
   })
 
   // GET request to /link/:link, return information on the provided link
